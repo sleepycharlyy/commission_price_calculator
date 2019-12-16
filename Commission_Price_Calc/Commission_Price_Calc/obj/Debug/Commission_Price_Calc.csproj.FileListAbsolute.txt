@@ -1,0 +1,9 @@
+C:\Users\charly\Desktop\git\commission_price_calculator\Commission_Price_Calc\Commission_Price_Calc\bin\Debug\Commission_Price_Calc.exe.config
+C:\Users\charly\Desktop\git\commission_price_calculator\Commission_Price_Calc\Commission_Price_Calc\bin\Debug\Commission_Price_Calc.exe
+C:\Users\charly\Desktop\git\commission_price_calculator\Commission_Price_Calc\Commission_Price_Calc\bin\Debug\Commission_Price_Calc.pdb
+C:\Users\charly\Desktop\git\commission_price_calculator\Commission_Price_Calc\Commission_Price_Calc\obj\Debug\Commission_Price_Calc.csprojAssemblyReference.cache
+C:\Users\charly\Desktop\git\commission_price_calculator\Commission_Price_Calc\Commission_Price_Calc\obj\Debug\Commission_Price_Calc.Properties.Resources.resources
+C:\Users\charly\Desktop\git\commission_price_calculator\Commission_Price_Calc\Commission_Price_Calc\obj\Debug\Commission_Price_Calc.csproj.GenerateResource.cache
+C:\Users\charly\Desktop\git\commission_price_calculator\Commission_Price_Calc\Commission_Price_Calc\obj\Debug\Commission_Price_Calc.exe
+C:\Users\charly\Desktop\git\commission_price_calculator\Commission_Price_Calc\Commission_Price_Calc\obj\Debug\Commission_Price_Calc.pdb
+C:\Users\charly\Desktop\git\commission_price_calculator\Commission_Price_Calc\Commission_Price_Calc\obj\Debug\Commission_Price_Calc.MainForm.resources
