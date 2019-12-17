@@ -7,3 +7,8 @@ C:\Users\charly\Desktop\git\commission_price_calculator\Commission_Price_Calc\Co
 C:\Users\charly\Desktop\git\commission_price_calculator\Commission_Price_Calc\Commission_Price_Calc\obj\Debug\Commission_Price_Calc.exe
 C:\Users\charly\Desktop\git\commission_price_calculator\Commission_Price_Calc\Commission_Price_Calc\obj\Debug\Commission_Price_Calc.pdb
 C:\Users\charly\Desktop\git\commission_price_calculator\Commission_Price_Calc\Commission_Price_Calc\obj\Debug\Commission_Price_Calc.MainForm.resources
+C:\Users\charly\Desktop\git\commission_price_calculator\Commission_Price_Calc\Commission_Price_Calc\bin\Debug\Commission_Price_Calc.exe.manifest
+C:\Users\charly\Desktop\git\commission_price_calculator\Commission_Price_Calc\Commission_Price_Calc\bin\Debug\Commission_Price_Calc.application
+C:\Users\charly\Desktop\git\commission_price_calculator\Commission_Price_Calc\Commission_Price_Calc\obj\Debug\Commission_Price_Calc.TrustInfo.xml
+C:\Users\charly\Desktop\git\commission_price_calculator\Commission_Price_Calc\Commission_Price_Calc\obj\Debug\Commission_Price_Calc.exe.manifest
+C:\Users\charly\Desktop\git\commission_price_calculator\Commission_Price_Calc\Commission_Price_Calc\obj\Debug\Commission_Price_Calc.application

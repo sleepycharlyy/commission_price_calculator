@@ -40,20 +40,22 @@
             this.Add = new System.Windows.Forms.RadioButton();
             this.Remove = new System.Windows.Forms.RadioButton();
             this.Log = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.LabelLog = new System.Windows.Forms.Label();
             this.InputTax = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
+            this.LabelTax = new System.Windows.Forms.Label();
             this.ButtonStart = new System.Windows.Forms.Button();
             this.ButtonStop = new System.Windows.Forms.Button();
             this.ButtonAccept = new System.Windows.Forms.Button();
             this.InputBaseCosts = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
+            this.LabelBaseCosts = new System.Windows.Forms.Label();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // InputHours
             // 
             this.InputHours.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.InputHours.Location = new System.Drawing.Point(270, 48);
+            this.InputHours.Location = new System.Drawing.Point(246, 48);
             this.InputHours.Name = "InputHours";
             this.InputHours.Size = new System.Drawing.Size(61, 20);
             this.InputHours.TabIndex = 0;
@@ -91,7 +93,7 @@
             // 
             this.LabelHours.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.LabelHours.AutoSize = true;
-            this.LabelHours.Location = new System.Drawing.Point(267, 32);
+            this.LabelHours.Location = new System.Drawing.Point(251, 32);
             this.LabelHours.Name = "LabelHours";
             this.LabelHours.Size = new System.Drawing.Size(35, 13);
             this.LabelHours.TabIndex = 4;
@@ -109,7 +111,7 @@
             // InputMinutes
             // 
             this.InputMinutes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.InputMinutes.Location = new System.Drawing.Point(349, 48);
+            this.InputMinutes.Location = new System.Drawing.Point(337, 48);
             this.InputMinutes.Name = "InputMinutes";
             this.InputMinutes.Size = new System.Drawing.Size(72, 20);
             this.InputMinutes.TabIndex = 6;
@@ -119,7 +121,7 @@
             // 
             this.LabelMinutes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.LabelMinutes.AutoSize = true;
-            this.LabelMinutes.Location = new System.Drawing.Point(346, 32);
+            this.LabelMinutes.Location = new System.Drawing.Point(342, 32);
             this.LabelMinutes.Name = "LabelMinutes";
             this.LabelMinutes.Size = new System.Drawing.Size(90, 13);
             this.LabelMinutes.TabIndex = 7;
@@ -128,7 +130,7 @@
             // TotalTime
             // 
             this.TotalTime.AutoSize = true;
-            this.TotalTime.Location = new System.Drawing.Point(13, 22);
+            this.TotalTime.Location = new System.Drawing.Point(9, 18);
             this.TotalTime.Name = "TotalTime";
             this.TotalTime.Size = new System.Drawing.Size(133, 13);
             this.TotalTime.TabIndex = 8;
@@ -138,21 +140,23 @@
             // 
             this.Add.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.Add.AutoSize = true;
-            this.Add.Location = new System.Drawing.Point(270, 77);
+            this.Add.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Add.Location = new System.Drawing.Point(3, 26);
             this.Add.Name = "Add";
-            this.Add.Size = new System.Drawing.Size(44, 17);
+            this.Add.Size = new System.Drawing.Size(67, 17);
             this.Add.TabIndex = 9;
             this.Add.TabStop = true;
-            this.Add.Text = "Add";
+            this.Add.Text = "Add        ";
             this.Add.UseVisualStyleBackColor = true;
             // 
             // Remove
             // 
             this.Remove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.Remove.AutoSize = true;
-            this.Remove.Location = new System.Drawing.Point(270, 100);
+            this.Remove.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Remove.Location = new System.Drawing.Point(3, 3);
             this.Remove.Name = "Remove";
-            this.Remove.Size = new System.Drawing.Size(65, 17);
+            this.Remove.Size = new System.Drawing.Size(64, 17);
             this.Remove.TabIndex = 10;
             this.Remove.TabStop = true;
             this.Remove.Text = "Remove";
@@ -170,14 +174,14 @@
             this.Log.Size = new System.Drawing.Size(420, 92);
             this.Log.TabIndex = 11;
             // 
-            // label1
+            // LabelLog
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 172);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(28, 13);
-            this.label1.TabIndex = 12;
-            this.label1.Text = "Log:";
+            this.LabelLog.AutoSize = true;
+            this.LabelLog.Location = new System.Drawing.Point(9, 172);
+            this.LabelLog.Name = "LabelLog";
+            this.LabelLog.Size = new System.Drawing.Size(28, 13);
+            this.LabelLog.TabIndex = 12;
+            this.LabelLog.Text = "Log:";
             // 
             // InputTax
             // 
@@ -187,18 +191,18 @@
             this.InputTax.TabIndex = 13;
             this.InputTax.Text = "0.0";
             // 
-            // label2
+            // LabelTax
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(75, 145);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(36, 13);
-            this.label2.TabIndex = 14;
-            this.label2.Text = "% Tax";
+            this.LabelTax.AutoSize = true;
+            this.LabelTax.Location = new System.Drawing.Point(75, 145);
+            this.LabelTax.Name = "LabelTax";
+            this.LabelTax.Size = new System.Drawing.Size(36, 13);
+            this.LabelTax.TabIndex = 14;
+            this.LabelTax.Text = "% Tax";
             // 
             // ButtonStart
             // 
-            this.ButtonStart.Location = new System.Drawing.Point(16, 48);
+            this.ButtonStart.Location = new System.Drawing.Point(12, 46);
             this.ButtonStart.Name = "ButtonStart";
             this.ButtonStart.Size = new System.Drawing.Size(75, 23);
             this.ButtonStart.TabIndex = 15;
@@ -207,7 +211,7 @@
             // 
             // ButtonStop
             // 
-            this.ButtonStop.Location = new System.Drawing.Point(106, 48);
+            this.ButtonStop.Location = new System.Drawing.Point(93, 46);
             this.ButtonStop.Name = "ButtonStop";
             this.ButtonStop.Size = new System.Drawing.Size(75, 23);
             this.ButtonStop.TabIndex = 16;
@@ -217,9 +221,10 @@
             // ButtonAccept
             // 
             this.ButtonAccept.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.ButtonAccept.Location = new System.Drawing.Point(349, 83);
+            this.ButtonAccept.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ButtonAccept.Location = new System.Drawing.Point(337, 76);
             this.ButtonAccept.Name = "ButtonAccept";
-            this.ButtonAccept.Size = new System.Drawing.Size(56, 34);
+            this.ButtonAccept.Size = new System.Drawing.Size(84, 49);
             this.ButtonAccept.TabIndex = 17;
             this.ButtonAccept.Text = "Accept";
             this.ButtonAccept.UseVisualStyleBackColor = true;
@@ -233,14 +238,24 @@
             this.InputBaseCosts.TabIndex = 18;
             this.InputBaseCosts.Text = "0.0";
             // 
-            // label3
+            // LabelBaseCosts
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(75, 94);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(69, 13);
-            this.label3.TabIndex = 19;
-            this.label3.Text = "€ Base Costs";
+            this.LabelBaseCosts.AutoSize = true;
+            this.LabelBaseCosts.Location = new System.Drawing.Point(75, 94);
+            this.LabelBaseCosts.Name = "LabelBaseCosts";
+            this.LabelBaseCosts.Size = new System.Drawing.Size(69, 13);
+            this.LabelBaseCosts.TabIndex = 19;
+            this.LabelBaseCosts.Text = "€ Base Costs";
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.flowLayoutPanel1.Controls.Add(this.Remove);
+            this.flowLayoutPanel1.Controls.Add(this.Add);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(240, 76);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(91, 47);
+            this.flowLayoutPanel1.TabIndex = 20;
             // 
             // MainForm
             // 
@@ -248,17 +263,16 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(444, 321);
-            this.Controls.Add(this.label3);
+            this.Controls.Add(this.flowLayoutPanel1);
+            this.Controls.Add(this.LabelBaseCosts);
             this.Controls.Add(this.InputBaseCosts);
             this.Controls.Add(this.ButtonAccept);
             this.Controls.Add(this.ButtonStop);
             this.Controls.Add(this.ButtonStart);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.LabelTax);
             this.Controls.Add(this.InputTax);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.LabelLog);
             this.Controls.Add(this.Log);
-            this.Controls.Add(this.Remove);
-            this.Controls.Add(this.Add);
             this.Controls.Add(this.TotalTime);
             this.Controls.Add(this.LabelMinutes);
             this.Controls.Add(this.InputMinutes);
@@ -271,6 +285,8 @@
             this.MinimumSize = new System.Drawing.Size(460, 360);
             this.Name = "MainForm";
             this.Text = "Commission Price Calculator";
+            this.flowLayoutPanel1.ResumeLayout(false);
+            this.flowLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -290,14 +306,15 @@
         private System.Windows.Forms.RadioButton Add;
         private System.Windows.Forms.RadioButton Remove;
         private System.Windows.Forms.TextBox Log;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label LabelLog;
         private System.Windows.Forms.TextBox InputTax;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label LabelTax;
         private System.Windows.Forms.Button ButtonStart;
         private System.Windows.Forms.Button ButtonStop;
         private System.Windows.Forms.Button ButtonAccept;
         private System.Windows.Forms.TextBox InputBaseCosts;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label LabelBaseCosts;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
     }
 }
 
