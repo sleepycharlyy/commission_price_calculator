@@ -19,6 +19,7 @@ namespace Commission_Price_Calc
 
         public double currentHours = 0.0;
         public double currentMinutes = 0.0;
+        public double currentSeconds = 0.0;
 
         public bool timer_running = false;
 
@@ -274,6 +275,7 @@ namespace Commission_Price_Calc
                     break;
             }
         }
+
         #endregion
 
         #endregion
