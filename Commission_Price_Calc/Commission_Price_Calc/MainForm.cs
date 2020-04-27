@@ -17,6 +17,8 @@ namespace Commission_Price_Calc
     public partial class MainForm : Form
     {
 
+        public String projectName = "";
+
         public double currentHours = 0.0;
         public double currentMinutes = 0.0;
         public double currentSeconds = 0.0;
@@ -25,6 +27,8 @@ namespace Commission_Price_Calc
 
         public string currency = "€";
 
+        public string lang_resetmessage = "";
+        public string lang_resettitle = "";
         #region Constructor
         /// <summary>
         /// Default Constructor
@@ -36,6 +40,18 @@ namespace Commission_Price_Calc
             changeCurrency();
             changeLabelLang();
             changeTimeLabel();
+
+            //project label
+            switch (getLang())
+            {
+                case "English":
+                    projectName = "New Project";
+                    break;
+                case "Deutsch":
+                    projectName = "Neues Projekt";
+                    break;
+            }
+            labelProject.Text = projectName;
         }
         #endregion
 
@@ -43,6 +59,108 @@ namespace Commission_Price_Calc
         #region Methods
 
         #region Buttons
+
+        #region Menu Strip
+        private void closeProgramToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void loadProjectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void saveProjectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void openPreferencesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+        #endregion
+
+        private void ButtonSave_Click(object sender, EventArgs e)
+        {
+            saveFile();
+        }
+
+        private void ButtonLoad_Click(object sender, EventArgs e)
+        {
+            loadFile();
+        }
+        private void ButtonReset_Click(object sender, EventArgs e)
+        {
+            if (timer_running) { return; }
+            if(MessageBox.Show(lang_resetmessage, lang_resettitle, MessageBoxButtons.YesNo, MessageBoxIcon.Warning) 
+                == DialogResult.Yes)
+            {
+                currentHours = 0.0;
+                currentMinutes = 0.0;
+                currentSeconds = 0.0;
+                changeTimeLabel();
+            }
+            //logging
+            switch (getLang())
+            {
+                case "English":
+                    addLog("[RESET] " + "Time was reset!");
+                    break;
+                case "Deutsch":
+                    addLog("[ZURÜCKSETZEN] " + "Die Arbeitszeit wurde zurückgesetzt!");
+                    break;
+            }
+        }
+
+        private void ButtonStop_Click(object sender, EventArgs e)
+        {
+            ButtonStop.Enabled = false;
+            ButtonStart.Enabled = true;
+
+            ButtonReset.Enabled = true;
+            ButtonCalculate.Enabled = true;
+            ButtonAccept.Enabled = true;
+
+            timer_running = false;
+            timer1.Stop(); //stop timer
+
+            //logging
+            switch (getLang())
+            {
+                case "English":
+                    addLog("[TIMER] " + "Timer has stopped!");
+                    break;
+                case "Deutsch":
+                    addLog("[TIMER] " + "Der Timer wurde angehalten!");
+                    break;
+            }
+        }
+
+        private void ButtonStart_Click(object sender, EventArgs e)
+        {
+            ButtonStop.Enabled = true;
+            ButtonStart.Enabled = false;
+
+            ButtonReset.Enabled = false;
+            ButtonCalculate.Enabled = false;
+            ButtonAccept.Enabled = false;
+
+            timer_running = true;
+            timer1.Start(); //start timer
+
+            //logging
+            switch (getLang())
+            {
+                case "English":
+                    addLog("[TIMER] " + "Timer has started!");
+                    break;
+                case "Deutsch":
+                    addLog("[TIMER] " + "Der Timer wurde gestarten!");
+                    break;
+            }
+        }
 
         private void ButtonCalculate_Click(object sender, EventArgs e)
         {
@@ -183,10 +301,10 @@ namespace Commission_Price_Calc
             switch (getLang())
             {
                 case "English": 
-                                TotalTime.Text = "Total Time Worked: " + currentHours + "h " + currentMinutes + "m";
+                                TotalTime.Text = "Total Time Worked: " + currentHours + "h " + currentMinutes + "m " + currentSeconds + "s";
                                 break;
                 case "Deutsch":
-                                TotalTime.Text = "Insgesamte Arbeitszeit: " + currentHours + "h " + currentMinutes + "m";
+                                TotalTime.Text = "Insgesamte Arbeitszeit: " + currentHours + "h " + currentMinutes + "m " + currentSeconds + "s";
                                 break;
             }
            
@@ -243,6 +361,9 @@ namespace Commission_Price_Calc
                     ButtonAccept.Text = "Accept";
                     Remove.Text = "Remove";
                     Add.Text = "Add";
+                    ButtonReset.Text = "Reset";
+                    lang_resetmessage = "Do you really want to reset your Time?";
+                    lang_resettitle = "Reset Time?";
                     break;
                 case "Deutsch":
                     ButtonCalculate.Text = "Berechnen";
@@ -256,6 +377,9 @@ namespace Commission_Price_Calc
                     ButtonAccept.Text = "Akzeptieren";
                     Remove.Text = "Subtrahieren";
                     Add.Text = "Addieren";
+                    ButtonReset.Text = "Zurücksetzen";
+                    lang_resetmessage = "Wollen Sie Ihre Arbeitszeit wirklich zurücksetzen?";
+                    lang_resettitle = "Arbeitszeit zurücksetzen?";
                     break;
             }
         }
@@ -275,9 +399,39 @@ namespace Commission_Price_Calc
                     break;
             }
         }
+        
+        public void saveFile()
+        {
 
+        }
+        
+        public void loadFile()
+        {
+
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            currentSeconds += 1;
+
+            if (currentSeconds > 59)
+            {
+                currentMinutes++;
+                currentSeconds = 0;
+            }
+
+            if (currentMinutes > 59)
+            {
+                currentHours++;
+                currentMinutes = 0;
+            }
+
+            changeTimeLabel();
+        }
         #endregion
 
         #endregion
+
+
     }
 }
