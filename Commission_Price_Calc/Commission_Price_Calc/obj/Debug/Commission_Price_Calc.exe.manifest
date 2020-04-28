@@ -42,14 +42,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Commission_Price_Calc.exe" size="27624">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Commission_Price_Calc.exe" size="32232">
       <assemblyIdentity name="Commission_Price_Calc" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>IPa6PblIDhUUI2cb8hKGIcydW2xMpk9EA2dT0eBnj/0=</dsig:DigestValue>
+        <dsig:DigestValue>Js/Y0BF8d+Bxo4xRPkVeYBImPM7o0oqfBipEwF0e20Q=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

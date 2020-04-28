@@ -14,3 +14,4 @@ C:\Users\charly\Desktop\git\commission_price_calculator\Commission_Price_Calc\Co
 C:\Users\charly\Desktop\git\commission_price_calculator\Commission_Price_Calc\Commission_Price_Calc\obj\Debug\Commission_Price_Calc.application
 C:\Users\charly\Desktop\Git\commission_price_calculator\Commission_Price_Calc\Commission_Price_Calc\obj\Debug\Commission_Price_Calc.csproj.CoreCompileInputs.cache
 C:\Users\charly\Desktop\Git\commission_price_calculator\Commission_Price_Calc\Commission_Price_Calc\obj\Debug\Commission_Price_Calc.Preferences.resources
+C:\Users\charly\Desktop\Git\commission_price_calculator\Commission_Price_Calc\Commission_Price_Calc\obj\Debug\Commission_Price_Calc.Info.resources

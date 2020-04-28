@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
 using Commission_Price_Calc.Properties;
 
 namespace Commission_Price_Calc
@@ -16,7 +17,6 @@ namespace Commission_Price_Calc
     /// </summary>
     public partial class MainForm : Form
     {
-
         public String projectName = "";
 
         public double currentHours = 0.0;
@@ -84,7 +84,8 @@ namespace Commission_Price_Calc
 
         private void infoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            Info info = new Info(this);
+            info.Show();
         }
         #endregion
 
@@ -252,7 +253,7 @@ namespace Commission_Price_Calc
                 //check if minutes over 59
                 if(currentMinutes >= 60)
                 {
-                    var i = currentMinu
+                    var i = currentMinutes;
 
                     var i_decimals = i - Math.Truncate(i);
                     currentMinutes = Math.Round(i_decimals * 60);
@@ -419,7 +420,7 @@ namespace Commission_Price_Calc
                     loadProjectToolStripMenuItem.Text = "Projekt laden";
                     saveProjectToolStripMenuItem.Text = "Projekt speichern";
                     openPreferencesToolStripMenuItem.Text = "Einstellungen öffnen";
-                    infoToolStripMenuItem.Text = "Info"
+                    infoToolStripMenuItem.Text = "Info";
                     menuStrip1.Items[0].Text = "Datei";
                     menuStrip1.Items[1].Text = "Optionen";
                     menuStrip1.Items[2].Text = "Hilfe";
@@ -445,12 +446,104 @@ namespace Commission_Price_Calc
         
         public void saveFile()
         {
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "Project File|*.xml";
+            if (!(sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK))
+            {
+                return;
+            }
 
+            XmlTextWriter textWriter = new XmlTextWriter(sfd.FileName, null);
+
+            textWriter.Formatting = Formatting.Indented;
+            textWriter.WriteStartDocument();
+            textWriter.WriteStartElement("ProjectFile");
+            textWriter.WriteElementString("currentMinutes", currentMinutes.ToString());
+            textWriter.WriteElementString("currentHours", currentHours.ToString());
+            textWriter.WriteElementString("currentSeconds", currentSeconds.ToString());
+            textWriter.WriteElementString("Wage", InputWage.Text);
+            textWriter.WriteElementString("BaseCosts", InputBaseCosts.Text);
+            textWriter.WriteElementString("Tax", InputTax.Text);
+            textWriter.WriteEndDocument();
+            textWriter.Close();
+
+
+            switch (getLang())
+            {
+                case "English":
+                    addLog("[SAVE] File has been saved at "+ sfd.FileName);
+                    break;
+                case "Deutsch":
+                    addLog("[SPEICHERN] Datei wurde als " + sfd.FileName + " gespeichert");
+                    break;
+            }
+
+            var proName = sfd.FileName.Split('\\').Last();
+            projectName = proName;
+            labelProject.Text = projectName;
         }
         
         public void loadFile()
         {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "Project File|*.xml";
+            if (!(ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK))
+            {
+                return;
+            }
 
+            XmlTextReader textReader = new XmlTextReader(ofd.FileName);
+            while (textReader.Read())
+            {
+                textReader.MoveToElement();
+                var name = textReader.Name;
+
+                if(name == "currentMinutes")
+                {
+                    currentMinutes = textReader.ReadElementContentAsDouble();
+                }
+
+                if (name == "currentHours")
+                {
+                    currentHours = textReader.ReadElementContentAsDouble();
+                }
+
+                if (name == "currentSeconds")
+                {
+                    currentSeconds = textReader.ReadElementContentAsDouble();
+                }
+
+                if (name == "Tax")
+                {
+                    InputTax.Text = textReader.ReadElementContentAsString();
+                }
+
+                if (name == "Wage")
+                {
+                    InputWage.Text = textReader.ReadElementContentAsString();
+                }
+
+                if (name == "BaseCosts")
+                {
+                    InputBaseCosts.Text = textReader.ReadElementContentAsString();
+                }
+            }
+            textReader.Close();
+
+
+            switch (getLang())
+            {
+                case "English":
+                    addLog("[LOAD] " + ofd.FileName + " has been loaded");
+                    break;
+                case "Deutsch":
+                    addLog("[LADEN] " + ofd.FileName + " wurde geladen");
+                    break;
+            }
+
+            var proName = ofd.FileName.Split('\\').Last();
+            projectName = proName;
+            labelProject.Text = projectName;
         }
 
         private void timer1_Tick(object sender, EventArgs e)
