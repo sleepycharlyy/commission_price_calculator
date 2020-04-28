@@ -63,22 +63,23 @@ namespace Commission_Price_Calc
         #region Menu Strip
         private void closeProgramToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            Application.Exit();
         }
 
         private void loadProjectToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            loadFile();
         }
 
         private void saveProjectToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            saveFile();
         }
 
         private void openPreferencesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            Preferences preferences = new Preferences(this);
+            preferences.Show();
         }
         #endregion
 
@@ -101,16 +102,16 @@ namespace Commission_Price_Calc
                 currentMinutes = 0.0;
                 currentSeconds = 0.0;
                 changeTimeLabel();
-            }
-            //logging
-            switch (getLang())
-            {
-                case "English":
-                    addLog("[RESET] " + "Time was reset!");
-                    break;
-                case "Deutsch":
-                    addLog("[ZURÜCKSETZEN] " + "Die Arbeitszeit wurde zurückgesetzt!");
-                    break;
+                //logging
+                switch (getLang())
+                {
+                    case "English":
+                        addLog("[RESET] " + "Time was reset!");
+                        break;
+                    case "Deutsch":
+                        addLog("[ZURÜCKSETZEN] " + "Die Arbeitszeit wurde zurückgesetzt!");
+                        break;
+                }
             }
         }
 
@@ -213,7 +214,13 @@ namespace Commission_Price_Calc
             double hours = validateNumber(InputHours.Text);
 
             //delete decimals
-            if(minutes >= 60) { minutes = 59; }
+            if(minutes >= 60) { //get hours from minutes
+                var i = minutes / 60;
+                var i_decimals = i - Math.Truncate(i);
+                minutes = Math.Round(i_decimals * 60);
+                hours += Math.Floor(i);
+            }
+
             minutes = Math.Floor(minutes);
             hours = Math.Floor(hours);
 
@@ -224,7 +231,7 @@ namespace Commission_Price_Calc
             double beforeMinutes = currentMinutes;
 
             //if nothings checked
-            if (minutes == 0 && hours == 0)
+            if (hours == 0 && minutes == 0)
             {
                 return;
             }
@@ -239,8 +246,13 @@ namespace Commission_Price_Calc
 
                 //check if minutes over 59
                 if(currentMinutes >= 60)
-                { currentMinutes = 59; }
-                
+                {
+                    var i = currentMinutes / 60;
+                    var i_decimals = i - Math.Truncate(i);
+                    currentMinutes = Math.Round(i_decimals * 60);
+                    currentHours = currentHours + Math.Floor(i);
+                }
+
                 switch (getLang())
                 {
                     case "English":
@@ -264,13 +276,22 @@ namespace Commission_Price_Calc
                 currentMinutes -= minutes;
 
                 //check if 0
-                if(currentMinutes < 0)
+                if (currentMinutes < 0)
                 {
-                    currentMinutes = 0;
+                    if (currentHours >= 1)
+                    {
+                        currentMinutes = 60 + currentMinutes;
+                        currentHours -= 1;
+                    }
+                    else
+                    {
+                        currentMinutes = 0;
+                    }
                 }
                 if (currentHours < 0)
                 {
                     currentHours = 0;
+                    currentMinutes = 0;
                 }
 
                 switch (getLang())
@@ -296,7 +317,7 @@ namespace Commission_Price_Calc
         #endregion
 
         #region Misc
-        private void changeTimeLabel()
+        public void changeTimeLabel()
         {
             switch (getLang())
             {
@@ -310,7 +331,7 @@ namespace Commission_Price_Calc
            
         }
 
-        private void addLog(string text)
+        public void addLog(string text)
         {
             if (Log.Text == "") { Log.Text = "[" + DateTime.Now + "]: " + text; }
             else
@@ -319,7 +340,7 @@ namespace Commission_Price_Calc
             }
         }
         
-        private double validateNumber(string n)
+        public double validateNumber(string n)
         {
             // deleting all €$ type characters
             var charsToRemove = new string[] { "€", "$", " ", "%", "£"};
@@ -340,12 +361,12 @@ namespace Commission_Price_Calc
             }
         }
 
-        private string getLang()
+        public string getLang()
         {
             return Settings.Default["Language"].ToString();
         }
 
-        private void changeLabelLang()
+        public void changeLabelLang()
         {
             switch (getLang())
             {
@@ -357,13 +378,19 @@ namespace Commission_Price_Calc
                     LabelWage.Text = currency + " Per Hour";
                     LabelBaseCosts.Text = currency + " Base Costs";
                     LabelHours.Text = "Hours";
-                    LabelMinutes.Text = "Minutes (max. 59)";
+                    LabelMinutes.Text = "Minutes";
                     ButtonAccept.Text = "Accept";
                     Remove.Text = "Remove";
                     Add.Text = "Add";
                     ButtonReset.Text = "Reset";
                     lang_resetmessage = "Do you really want to reset your Time?";
                     lang_resettitle = "Reset Time?";
+                    closeProgramToolStripMenuItem.Text = "Close Program";
+                    loadProjectToolStripMenuItem.Text = "Load Project";
+                    saveProjectToolStripMenuItem.Text = "Save Project";
+                    openPreferencesToolStripMenuItem.Text = "Open Preferences";
+                    menuStrip1.Items[0].Text = "File";
+                    menuStrip1.Items[1].Text = "Options";
                     break;
                 case "Deutsch":
                     ButtonCalculate.Text = "Berechnen";
@@ -373,13 +400,19 @@ namespace Commission_Price_Calc
                     LabelWage.Text = currency + " pro Stunde";
                     LabelBaseCosts.Text = currency + " Basiskosten";
                     LabelHours.Text = "Stunden";
-                    LabelMinutes.Text = "Minuten (max. 59)";
+                    LabelMinutes.Text = "Minuten";
                     ButtonAccept.Text = "Akzeptieren";
                     Remove.Text = "Subtrahieren";
                     Add.Text = "Addieren";
                     ButtonReset.Text = "Zurücksetzen";
                     lang_resetmessage = "Wollen Sie Ihre Arbeitszeit wirklich zurücksetzen?";
                     lang_resettitle = "Arbeitszeit zurücksetzen?";
+                    closeProgramToolStripMenuItem.Text = "Programm schließen";
+                    loadProjectToolStripMenuItem.Text = "Projekt laden";
+                    saveProjectToolStripMenuItem.Text = "Projekt speichern";
+                    openPreferencesToolStripMenuItem.Text = "Einstellungen öffnen";
+                    menuStrip1.Items[0].Text = "Datei";
+                    menuStrip1.Items[1].Text = "Optionen";
                     break;
             }
         }

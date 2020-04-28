@@ -78,7 +78,7 @@
             // LabelResult
             // 
             this.LabelResult.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.LabelResult.Location = new System.Drawing.Point(9, 327);
+            this.LabelResult.Location = new System.Drawing.Point(12, 342);
             this.LabelResult.Name = "LabelResult";
             this.LabelResult.Size = new System.Drawing.Size(277, 23);
             this.LabelResult.TabIndex = 1;
@@ -95,7 +95,7 @@
             // ButtonCalculate
             // 
             this.ButtonCalculate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.ButtonCalculate.Location = new System.Drawing.Point(292, 327);
+            this.ButtonCalculate.Location = new System.Drawing.Point(292, 342);
             this.ButtonCalculate.Name = "ButtonCalculate";
             this.ButtonCalculate.Size = new System.Drawing.Size(129, 23);
             this.ButtonCalculate.TabIndex = 3;
@@ -180,7 +180,7 @@
             // 
             this.Log.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.Log.Location = new System.Drawing.Point(12, 229);
+            this.Log.Location = new System.Drawing.Point(12, 244);
             this.Log.Multiline = true;
             this.Log.Name = "Log";
             this.Log.ReadOnly = true;
@@ -192,7 +192,7 @@
             // 
             this.LabelLog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.LabelLog.AutoSize = true;
-            this.LabelLog.Location = new System.Drawing.Point(12, 213);
+            this.LabelLog.Location = new System.Drawing.Point(12, 228);
             this.LabelLog.Name = "LabelLog";
             this.LabelLog.Size = new System.Drawing.Size(28, 13);
             this.LabelLog.TabIndex = 12;
@@ -294,7 +294,7 @@
             // ButtonSave
             // 
             this.ButtonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.ButtonSave.Location = new System.Drawing.Point(240, 200);
+            this.ButtonSave.Location = new System.Drawing.Point(240, 215);
             this.ButtonSave.Name = "ButtonSave";
             this.ButtonSave.Size = new System.Drawing.Size(84, 23);
             this.ButtonSave.TabIndex = 22;
@@ -305,7 +305,7 @@
             // ButtonLoad
             // 
             this.ButtonLoad.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.ButtonLoad.Location = new System.Drawing.Point(337, 200);
+            this.ButtonLoad.Location = new System.Drawing.Point(337, 215);
             this.ButtonLoad.Name = "ButtonLoad";
             this.ButtonLoad.Size = new System.Drawing.Size(84, 23);
             this.ButtonLoad.TabIndex = 23;
@@ -377,7 +377,7 @@
             // openPreferencesToolStripMenuItem
             // 
             this.openPreferencesToolStripMenuItem.Name = "openPreferencesToolStripMenuItem";
-            this.openPreferencesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openPreferencesToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.openPreferencesToolStripMenuItem.Text = "Open Preferences";
             this.openPreferencesToolStripMenuItem.Click += new System.EventHandler(this.openPreferencesToolStripMenuItem_Click);
             // 
@@ -386,7 +386,8 @@
             this.AcceptButton = this.ButtonCalculate;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(444, 362);
+            this.AutoSize = true;
+            this.ClientSize = new System.Drawing.Size(444, 377);
             this.Controls.Add(this.labelProject);
             this.Controls.Add(this.ButtonLoad);
             this.Controls.Add(this.ButtonSave);
