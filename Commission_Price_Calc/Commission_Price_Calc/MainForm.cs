@@ -400,6 +400,8 @@ namespace Commission_Price_Calc
                     menuStrip1.Items[0].Text = "File";
                     menuStrip1.Items[1].Text = "Options";
                     menuStrip1.Items[2].Text = "Help";
+                    ButtonSave.Text = "Save";
+                    ButtonLoad.Text = "Load";
                     break;
                 case "Deutsch":
                     ButtonCalculate.Text = "Berechnen";
@@ -424,6 +426,8 @@ namespace Commission_Price_Calc
                     menuStrip1.Items[0].Text = "Datei";
                     menuStrip1.Items[1].Text = "Optionen";
                     menuStrip1.Items[2].Text = "Hilfe";
+                    ButtonSave.Text = "Speichern";
+                    ButtonLoad.Text = "Laden";
                     break;
             }
         }
