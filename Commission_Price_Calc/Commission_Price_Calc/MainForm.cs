@@ -81,6 +81,11 @@ namespace Commission_Price_Calc
             Preferences preferences = new Preferences(this);
             preferences.Show();
         }
+
+        private void infoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
         #endregion
 
         private void ButtonSave_Click(object sender, EventArgs e)
@@ -247,7 +252,8 @@ namespace Commission_Price_Calc
                 //check if minutes over 59
                 if(currentMinutes >= 60)
                 {
-                    var i = currentMinutes / 60;
+                    var i = currentMinu
+
                     var i_decimals = i - Math.Truncate(i);
                     currentMinutes = Math.Round(i_decimals * 60);
                     currentHours = currentHours + Math.Floor(i);
@@ -389,8 +395,10 @@ namespace Commission_Price_Calc
                     loadProjectToolStripMenuItem.Text = "Load Project";
                     saveProjectToolStripMenuItem.Text = "Save Project";
                     openPreferencesToolStripMenuItem.Text = "Open Preferences";
+                    infoToolStripMenuItem.Text = "Info";
                     menuStrip1.Items[0].Text = "File";
                     menuStrip1.Items[1].Text = "Options";
+                    menuStrip1.Items[2].Text = "Help";
                     break;
                 case "Deutsch":
                     ButtonCalculate.Text = "Berechnen";
@@ -411,8 +419,10 @@ namespace Commission_Price_Calc
                     loadProjectToolStripMenuItem.Text = "Projekt laden";
                     saveProjectToolStripMenuItem.Text = "Projekt speichern";
                     openPreferencesToolStripMenuItem.Text = "Einstellungen öffnen";
+                    infoToolStripMenuItem.Text = "Info"
                     menuStrip1.Items[0].Text = "Datei";
                     menuStrip1.Items[1].Text = "Optionen";
+                    menuStrip1.Items[2].Text = "Hilfe";
                     break;
             }
         }
@@ -461,10 +471,10 @@ namespace Commission_Price_Calc
 
             changeTimeLabel();
         }
-        #endregion
 
         #endregion
 
+        #endregion
 
     }
 }
