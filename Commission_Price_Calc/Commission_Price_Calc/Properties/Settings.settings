@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="Language" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Deutsch</Value>
+      <Value Profile="(Default)">English</Value>
     </Setting>
     <Setting Name="Currency" Type="System.String" Scope="User">
       <Value Profile="(Default)">€</Value>

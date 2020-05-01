@@ -26,7 +26,7 @@
     <TargetCulture>en-DE</TargetCulture>
     <ProductName>Comission Price Calculator</ProductName>
     <PublisherName>SleepyCharlyy</PublisherName>
-    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationRevision>1</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
