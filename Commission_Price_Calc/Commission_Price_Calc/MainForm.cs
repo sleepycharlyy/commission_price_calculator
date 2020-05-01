@@ -12,9 +12,6 @@ using Commission_Price_Calc.Properties;
 
 namespace Commission_Price_Calc
 {
-    /// <summary>
-    /// A basic calculator
-    /// </summary>
     public partial class MainForm : Form
     {
         public String projectName = "";
@@ -29,10 +26,8 @@ namespace Commission_Price_Calc
 
         public string lang_resetmessage = "";
         public string lang_resettitle = "";
+
         #region Constructor
-        /// <summary>
-        /// Default Constructor
-        /// </summary>
         public MainForm()
         {
             InitializeComponent();
@@ -51,12 +46,19 @@ namespace Commission_Price_Calc
                     projectName = "Neues Projekt";
                     break;
             }
+            //set project name to "new project
             labelProject.Text = projectName;
+
+            //set icon
+            this.Icon = Properties.Resources.comission_price_calculator1;
         }
+        
         #endregion
 
 
         #region Methods
+
+        #region Events
 
         #region Buttons
 
@@ -98,10 +100,11 @@ namespace Commission_Price_Calc
         {
             loadFile();
         }
+
         private void ButtonReset_Click(object sender, EventArgs e)
         {
             if (timer_running) { return; }
-            if(MessageBox.Show(lang_resetmessage, lang_resettitle, MessageBoxButtons.YesNo, MessageBoxIcon.Warning) 
+            if (MessageBox.Show(lang_resetmessage, lang_resettitle, MessageBoxButtons.YesNo, MessageBoxIcon.Warning)
                 == DialogResult.Yes)
             {
                 currentHours = 0.0;
@@ -173,29 +176,44 @@ namespace Commission_Price_Calc
         {
             //calculate result
             //get variables
-            double wage = validateNumber(InputWage.Text);
-            double tax = validateNumber(InputTax.Text);
-            double basecosts = validateNumber(InputBaseCosts.Text);
+            double wage = validateNumber(InputWage.Text.Replace(".", ","));
+            double tax = validateNumber(InputTax.Text.Replace(".", ","));
+            double basecosts = validateNumber(InputBaseCosts.Text.Replace(".", ","));
             double hours = (currentMinutes / 60) + currentHours;
- 
+
             Double result = (hours * wage); //calculate base result
             result = result + basecosts; //add basecosts
             result = result + (result * (tax / 100)); //add tax
             result = Math.Round(result, 2); //round
 
-            if (hours == 0) { return; } //if u havent worked any time just exit this function
+            String export = result.ToString();
+
+            if (hours == 0)
+            {
+                switch (getLang())
+                {
+                    case "English":
+                        addLog("[CALCULATE] You need to add Time first!");
+                        break;
+                    case "Deutsch":
+                        addLog("[BERECHNUNG] Sie müssen Zeit zuvor hinzufügen!");
+                        break;
+                }
+
+                return;
+            } //if u havent worked any time just exit this function
 
             //set label
             switch (getLang())
             {
                 case "English":
-                    LabelResult.Text = "Result: " + result.ToString() + currency;
+                    LabelResult.Text = "Result: " + export + currency;
                     break;
                 case "Deutsch":
-                    LabelResult.Text = "Ergebnis: " + result.ToString() + currency;
+                    LabelResult.Text = "Ergebnis: " + export + currency;
                     break;
             }
-          
+
 
             //logging
             switch (getLang())
@@ -203,24 +221,25 @@ namespace Commission_Price_Calc
                 case "English":
                     addLog("[CALCULATE] " + "Time: " + currentHours + "h " + currentMinutes + "m, "
                      + "Basecosts: " + basecosts + currency + ", " + currency + " per h: " + wage + currency + ", " + "Tax: " + tax + "%, "
-                     + "Result: " + result + currency );
+                     + "Result: " + export + currency);
                     break;
                 case "Deutsch":
                     addLog("[BERECHNUNG] " + "Zeit: " + currentHours + "h " + currentMinutes + "m, "
-                    + "Basiskosten: " + basecosts + currency +", " + currency + " pro Stunde: " + wage + currency +", " + "Steuern: " + tax + "%, "
-                    + "Ergebnis: " + result + currency);
+                    + "Basiskosten: " + basecosts + currency + ", " + currency + " pro Stunde: " + wage + currency + ", " + "Steuern: " + tax + "%, "
+                    + "Ergebnis: " + export + currency);
                     break;
             }
         }
 
         private void ButtonAccept_Click(object sender, EventArgs e)
         {
-            if(timer_running) { return; }
+            if (timer_running) { return; }
             double minutes = validateNumber(InputMinutes.Text);
             double hours = validateNumber(InputHours.Text);
 
             //delete decimals
-            if(minutes >= 60) { //get hours from minutes
+            if (minutes >= 60)
+            { //get hours from minutes
                 var i = minutes / 60;
                 var i_decimals = i - Math.Truncate(i);
                 minutes = Math.Round(i_decimals * 60);
@@ -243,15 +262,16 @@ namespace Commission_Price_Calc
             }
             if (add == false && remove == false)
             {
-                return; 
-            }else //if adds checked
-            if(add == true)
-            { 
+                return;
+            }
+            else //if adds checked
+            if (add == true)
+            {
                 currentHours += hours;
                 currentMinutes += minutes;
 
                 //check if minutes over 59
-                if(currentMinutes >= 60)
+                if (currentMinutes >= 60)
                 {
                     var i = currentMinutes;
 
@@ -276,8 +296,9 @@ namespace Commission_Price_Calc
 
                 changeTimeLabel();
 
-            }else //if removes checked
-            if(remove == true)
+            }
+            else //if removes checked
+            if (remove == true)
             {
                 currentHours -= hours;
                 currentMinutes -= minutes;
@@ -322,6 +343,68 @@ namespace Commission_Price_Calc
         }
 
         #endregion
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            currentSeconds += 1;
+
+            if (currentSeconds > 59)
+            {
+                currentMinutes++;
+                currentSeconds = 0;
+            }
+
+            if (currentMinutes > 59)
+            {
+                currentHours++;
+                currentMinutes = 0;
+            }
+
+            changeTimeLabel();
+        }
+
+        private void InputMinutes_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsNumber(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void InputHours_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsNumber(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void InputWage_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsNumber(e.KeyChar) && !char.IsControl(e.KeyChar) && !char.IsPunctuation(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void InputBaseCosts_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsNumber(e.KeyChar) && !char.IsControl(e.KeyChar) && !char.IsPunctuation(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void InputTax_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsNumber(e.KeyChar) && !char.IsControl(e.KeyChar) && !char.IsPunctuation(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+        #endregion
+
+
 
         #region Misc
         public void changeTimeLabel()
@@ -389,7 +472,7 @@ namespace Commission_Price_Calc
                     ButtonAccept.Text = "Accept";
                     Remove.Text = "Remove";
                     Add.Text = "Add";
-                    ButtonReset.Text = "Reset";
+                    ButtonReset.Text = "Reset Time";
                     lang_resetmessage = "Do you really want to reset your Time?";
                     lang_resettitle = "Reset Time?";
                     closeProgramToolStripMenuItem.Text = "Close Program";
@@ -402,6 +485,7 @@ namespace Commission_Price_Calc
                     menuStrip1.Items[2].Text = "Help";
                     ButtonSave.Text = "Save";
                     ButtonLoad.Text = "Load";
+                    labelSettings.Text = "Settings";
                     break;
                 case "Deutsch":
                     ButtonCalculate.Text = "Berechnen";
@@ -415,7 +499,7 @@ namespace Commission_Price_Calc
                     ButtonAccept.Text = "Akzeptieren";
                     Remove.Text = "Subtrahieren";
                     Add.Text = "Addieren";
-                    ButtonReset.Text = "Zurücksetzen";
+                    ButtonReset.Text = "Zeit Zurücksetzen";
                     lang_resetmessage = "Wollen Sie Ihre Arbeitszeit wirklich zurücksetzen?";
                     lang_resettitle = "Arbeitszeit zurücksetzen?";
                     closeProgramToolStripMenuItem.Text = "Programm schließen";
@@ -428,6 +512,7 @@ namespace Commission_Price_Calc
                     menuStrip1.Items[2].Text = "Hilfe";
                     ButtonSave.Text = "Speichern";
                     ButtonLoad.Text = "Laden";
+                    labelSettings.Text = "Einstellungen";
                     break;
             }
         }
@@ -550,28 +635,12 @@ namespace Commission_Price_Calc
             labelProject.Text = projectName;
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            currentSeconds += 1;
-
-            if (currentSeconds > 59)
-            {
-                currentMinutes++;
-                currentSeconds = 0;
-            }
-
-            if (currentMinutes > 59)
-            {
-                currentHours++;
-                currentMinutes = 0;
-            }
-
-            changeTimeLabel();
-        }
-
         #endregion
 
+      
         #endregion
+
 
     }
+
 }

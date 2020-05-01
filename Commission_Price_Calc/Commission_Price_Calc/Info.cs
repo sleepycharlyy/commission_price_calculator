@@ -39,5 +39,10 @@ namespace Commission_Price_Calc
         {
             this.Close();
         }
+
+        private void labelText_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

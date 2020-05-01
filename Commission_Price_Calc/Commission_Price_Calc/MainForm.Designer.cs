@@ -64,42 +64,45 @@
             this.openPreferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.infoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.labelSettings = new System.Windows.Forms.Label();
             this.flowLayoutPanel1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // InputHours
             // 
-            this.InputHours.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.InputHours.Location = new System.Drawing.Point(246, 48);
+            this.InputHours.Location = new System.Drawing.Point(12, 178);
             this.InputHours.Name = "InputHours";
-            this.InputHours.Size = new System.Drawing.Size(61, 20);
+            this.InputHours.Size = new System.Drawing.Size(84, 20);
             this.InputHours.TabIndex = 0;
             this.InputHours.Text = "0";
+            this.InputHours.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.InputHours_KeyPress);
             // 
             // LabelResult
             // 
-            this.LabelResult.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.LabelResult.Location = new System.Drawing.Point(12, 342);
+            this.LabelResult.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.LabelResult.Location = new System.Drawing.Point(234, 232);
             this.LabelResult.Name = "LabelResult";
-            this.LabelResult.Size = new System.Drawing.Size(277, 23);
+            this.LabelResult.Size = new System.Drawing.Size(196, 23);
             this.LabelResult.TabIndex = 1;
             this.LabelResult.Text = "Result: 0€";
             // 
             // InputWage
             // 
-            this.InputWage.Location = new System.Drawing.Point(12, 138);
+            this.InputWage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.InputWage.Location = new System.Drawing.Point(237, 84);
             this.InputWage.Name = "InputWage";
             this.InputWage.Size = new System.Drawing.Size(57, 20);
             this.InputWage.TabIndex = 2;
             this.InputWage.Text = "10.00";
+            this.InputWage.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.InputWage_KeyPress);
             // 
             // ButtonCalculate
             // 
-            this.ButtonCalculate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.ButtonCalculate.Location = new System.Drawing.Point(292, 342);
+            this.ButtonCalculate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ButtonCalculate.Location = new System.Drawing.Point(237, 201);
             this.ButtonCalculate.Name = "ButtonCalculate";
-            this.ButtonCalculate.Size = new System.Drawing.Size(129, 23);
+            this.ButtonCalculate.Size = new System.Drawing.Size(193, 23);
             this.ButtonCalculate.TabIndex = 3;
             this.ButtonCalculate.Text = "Calculate";
             this.ButtonCalculate.UseVisualStyleBackColor = true;
@@ -107,9 +110,8 @@
             // 
             // LabelHours
             // 
-            this.LabelHours.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.LabelHours.AutoSize = true;
-            this.LabelHours.Location = new System.Drawing.Point(251, 32);
+            this.LabelHours.Location = new System.Drawing.Point(12, 162);
             this.LabelHours.Name = "LabelHours";
             this.LabelHours.Size = new System.Drawing.Size(35, 13);
             this.LabelHours.TabIndex = 4;
@@ -117,8 +119,9 @@
             // 
             // LabelWage
             // 
+            this.LabelWage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.LabelWage.AutoSize = true;
-            this.LabelWage.Location = new System.Drawing.Point(75, 141);
+            this.LabelWage.Location = new System.Drawing.Point(300, 87);
             this.LabelWage.Name = "LabelWage";
             this.LabelWage.Size = new System.Drawing.Size(58, 13);
             this.LabelWage.TabIndex = 5;
@@ -126,27 +129,26 @@
             // 
             // InputMinutes
             // 
-            this.InputMinutes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.InputMinutes.Location = new System.Drawing.Point(337, 48);
+            this.InputMinutes.Location = new System.Drawing.Point(102, 178);
             this.InputMinutes.Name = "InputMinutes";
-            this.InputMinutes.Size = new System.Drawing.Size(72, 20);
+            this.InputMinutes.Size = new System.Drawing.Size(84, 20);
             this.InputMinutes.TabIndex = 6;
             this.InputMinutes.Text = "0";
+            this.InputMinutes.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.InputMinutes_KeyPress);
             // 
             // LabelMinutes
             // 
-            this.LabelMinutes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.LabelMinutes.AutoSize = true;
-            this.LabelMinutes.Location = new System.Drawing.Point(342, 32);
+            this.LabelMinutes.Location = new System.Drawing.Point(99, 162);
             this.LabelMinutes.Name = "LabelMinutes";
-            this.LabelMinutes.Size = new System.Drawing.Size(90, 13);
+            this.LabelMinutes.Size = new System.Drawing.Size(47, 13);
             this.LabelMinutes.TabIndex = 7;
-            this.LabelMinutes.Text = "Minutes (max. 59)";
+            this.LabelMinutes.Text = "Minutes ";
             // 
             // TotalTime
             // 
             this.TotalTime.AutoSize = true;
-            this.TotalTime.Location = new System.Drawing.Point(7, 51);
+            this.TotalTime.Location = new System.Drawing.Point(12, 91);
             this.TotalTime.Name = "TotalTime";
             this.TotalTime.Size = new System.Drawing.Size(147, 13);
             this.TotalTime.TabIndex = 8;
@@ -156,8 +158,9 @@
             // 
             this.Add.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.Add.AutoSize = true;
+            this.Add.Checked = true;
             this.Add.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Add.Location = new System.Drawing.Point(3, 26);
+            this.Add.Location = new System.Drawing.Point(3, 3);
             this.Add.Name = "Add";
             this.Add.Size = new System.Drawing.Size(67, 17);
             this.Add.TabIndex = 9;
@@ -170,19 +173,17 @@
             this.Remove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.Remove.AutoSize = true;
             this.Remove.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Remove.Location = new System.Drawing.Point(3, 3);
+            this.Remove.Location = new System.Drawing.Point(3, 26);
             this.Remove.Name = "Remove";
             this.Remove.Size = new System.Drawing.Size(64, 17);
             this.Remove.TabIndex = 10;
-            this.Remove.TabStop = true;
             this.Remove.Text = "Remove";
             this.Remove.UseVisualStyleBackColor = true;
             // 
             // Log
             // 
-            this.Log.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.Log.Location = new System.Drawing.Point(12, 244);
+            this.Log.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.Log.Location = new System.Drawing.Point(10, 295);
             this.Log.Multiline = true;
             this.Log.Name = "Log";
             this.Log.ReadOnly = true;
@@ -194,7 +195,7 @@
             // 
             this.LabelLog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.LabelLog.AutoSize = true;
-            this.LabelLog.Location = new System.Drawing.Point(12, 228);
+            this.LabelLog.Location = new System.Drawing.Point(12, 279);
             this.LabelLog.Name = "LabelLog";
             this.LabelLog.Size = new System.Drawing.Size(28, 13);
             this.LabelLog.TabIndex = 12;
@@ -202,16 +203,19 @@
             // 
             // InputTax
             // 
-            this.InputTax.Location = new System.Drawing.Point(12, 164);
+            this.InputTax.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.InputTax.Location = new System.Drawing.Point(237, 159);
             this.InputTax.Name = "InputTax";
             this.InputTax.Size = new System.Drawing.Size(57, 20);
             this.InputTax.TabIndex = 13;
             this.InputTax.Text = "0.0";
+            this.InputTax.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.InputTax_KeyPress);
             // 
             // LabelTax
             // 
+            this.LabelTax.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.LabelTax.AutoSize = true;
-            this.LabelTax.Location = new System.Drawing.Point(75, 167);
+            this.LabelTax.Location = new System.Drawing.Point(300, 162);
             this.LabelTax.Name = "LabelTax";
             this.LabelTax.Size = new System.Drawing.Size(36, 13);
             this.LabelTax.TabIndex = 14;
@@ -219,9 +223,9 @@
             // 
             // ButtonStart
             // 
-            this.ButtonStart.Location = new System.Drawing.Point(10, 70);
+            this.ButtonStart.Location = new System.Drawing.Point(12, 107);
             this.ButtonStart.Name = "ButtonStart";
-            this.ButtonStart.Size = new System.Drawing.Size(75, 23);
+            this.ButtonStart.Size = new System.Drawing.Size(84, 23);
             this.ButtonStart.TabIndex = 15;
             this.ButtonStart.Text = "Start";
             this.ButtonStart.UseVisualStyleBackColor = true;
@@ -230,9 +234,9 @@
             // ButtonStop
             // 
             this.ButtonStop.Enabled = false;
-            this.ButtonStop.Location = new System.Drawing.Point(91, 70);
+            this.ButtonStop.Location = new System.Drawing.Point(102, 107);
             this.ButtonStop.Name = "ButtonStop";
-            this.ButtonStop.Size = new System.Drawing.Size(75, 23);
+            this.ButtonStop.Size = new System.Drawing.Size(84, 23);
             this.ButtonStop.TabIndex = 16;
             this.ButtonStop.Text = "Stop";
             this.ButtonStop.UseVisualStyleBackColor = true;
@@ -240,9 +244,8 @@
             // 
             // ButtonAccept
             // 
-            this.ButtonAccept.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.ButtonAccept.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ButtonAccept.Location = new System.Drawing.Point(337, 88);
+            this.ButtonAccept.Location = new System.Drawing.Point(102, 204);
             this.ButtonAccept.Name = "ButtonAccept";
             this.ButtonAccept.Size = new System.Drawing.Size(84, 47);
             this.ButtonAccept.TabIndex = 17;
@@ -252,16 +255,19 @@
             // 
             // InputBaseCosts
             // 
-            this.InputBaseCosts.Location = new System.Drawing.Point(12, 110);
+            this.InputBaseCosts.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.InputBaseCosts.Location = new System.Drawing.Point(237, 120);
             this.InputBaseCosts.Name = "InputBaseCosts";
             this.InputBaseCosts.Size = new System.Drawing.Size(57, 20);
             this.InputBaseCosts.TabIndex = 18;
             this.InputBaseCosts.Text = "0.0";
+            this.InputBaseCosts.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.InputBaseCosts_KeyPress);
             // 
             // LabelBaseCosts
             // 
+            this.LabelBaseCosts.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.LabelBaseCosts.AutoSize = true;
-            this.LabelBaseCosts.Location = new System.Drawing.Point(75, 115);
+            this.LabelBaseCosts.Location = new System.Drawing.Point(300, 123);
             this.LabelBaseCosts.Name = "LabelBaseCosts";
             this.LabelBaseCosts.Size = new System.Drawing.Size(69, 13);
             this.LabelBaseCosts.TabIndex = 19;
@@ -269,12 +275,11 @@
             // 
             // flowLayoutPanel1
             // 
-            this.flowLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.flowLayoutPanel1.Controls.Add(this.Remove);
             this.flowLayoutPanel1.Controls.Add(this.Add);
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(240, 88);
+            this.flowLayoutPanel1.Controls.Add(this.Remove);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(12, 204);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(91, 47);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(84, 47);
             this.flowLayoutPanel1.TabIndex = 20;
             // 
             // timer1
@@ -284,19 +289,17 @@
             // 
             // ButtonReset
             // 
-            this.ButtonReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.ButtonReset.Location = new System.Drawing.Point(240, 157);
+            this.ButtonReset.Location = new System.Drawing.Point(12, 136);
             this.ButtonReset.Name = "ButtonReset";
-            this.ButtonReset.Size = new System.Drawing.Size(181, 23);
+            this.ButtonReset.Size = new System.Drawing.Size(174, 23);
             this.ButtonReset.TabIndex = 21;
-            this.ButtonReset.Text = "Reset";
+            this.ButtonReset.Text = "Reset Time";
             this.ButtonReset.UseVisualStyleBackColor = true;
             this.ButtonReset.Click += new System.EventHandler(this.ButtonReset_Click);
             // 
             // ButtonSave
             // 
-            this.ButtonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.ButtonSave.Location = new System.Drawing.Point(240, 215);
+            this.ButtonSave.Location = new System.Drawing.Point(12, 46);
             this.ButtonSave.Name = "ButtonSave";
             this.ButtonSave.Size = new System.Drawing.Size(84, 23);
             this.ButtonSave.TabIndex = 22;
@@ -306,8 +309,7 @@
             // 
             // ButtonLoad
             // 
-            this.ButtonLoad.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.ButtonLoad.Location = new System.Drawing.Point(337, 215);
+            this.ButtonLoad.Location = new System.Drawing.Point(102, 46);
             this.ButtonLoad.Name = "ButtonLoad";
             this.ButtonLoad.Size = new System.Drawing.Size(84, 23);
             this.ButtonLoad.TabIndex = 23;
@@ -319,7 +321,7 @@
             // 
             this.labelProject.AutoSize = true;
             this.labelProject.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelProject.Location = new System.Drawing.Point(9, 30);
+            this.labelProject.Location = new System.Drawing.Point(12, 30);
             this.labelProject.Name = "labelProject";
             this.labelProject.Size = new System.Drawing.Size(73, 15);
             this.labelProject.TabIndex = 24;
@@ -399,13 +401,25 @@
             this.infoToolStripMenuItem.Text = "Info";
             this.infoToolStripMenuItem.Click += new System.EventHandler(this.infoToolStripMenuItem_Click);
             // 
+            // labelSettings
+            // 
+            this.labelSettings.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelSettings.AutoSize = true;
+            this.labelSettings.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelSettings.Location = new System.Drawing.Point(234, 56);
+            this.labelSettings.Name = "labelSettings";
+            this.labelSettings.Size = new System.Drawing.Size(53, 13);
+            this.labelSettings.TabIndex = 26;
+            this.labelSettings.Text = "Settings";
+            // 
             // MainForm
             // 
             this.AcceptButton = this.ButtonCalculate;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(444, 377);
+            this.ClientSize = new System.Drawing.Size(444, 399);
+            this.Controls.Add(this.labelSettings);
             this.Controls.Add(this.labelProject);
             this.Controls.Add(this.ButtonLoad);
             this.Controls.Add(this.ButtonSave);
@@ -481,6 +495,7 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem infoToolStripMenuItem;
+        private System.Windows.Forms.Label labelSettings;
     }
 }
 
