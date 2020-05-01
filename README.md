@@ -7,4 +7,6 @@ currently supported languages: german & english
 
 screenshot: https://i.imgur.com/lYnCyo4.png
 
+icon made by kszy
+
 this is my first time programming in c# so keep that in mind lmao i hope the program works fine.
