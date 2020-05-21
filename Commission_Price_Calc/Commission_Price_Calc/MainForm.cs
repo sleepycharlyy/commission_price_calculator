@@ -71,6 +71,7 @@ namespace Commission_Price_Calc
         private void loadProjectToolStripMenuItem_Click(object sender, EventArgs e)
         {
             loadFile();
+
         }
 
         private void saveProjectToolStripMenuItem_Click(object sender, EventArgs e)
@@ -633,6 +634,9 @@ namespace Commission_Price_Calc
             var proName = ofd.FileName.Split('\\').Last();
             projectName = proName;
             labelProject.Text = projectName;
+            changeTimeLabel();
+            changeLabelLang();
+            changeCurrency();
         }
 
         #endregion

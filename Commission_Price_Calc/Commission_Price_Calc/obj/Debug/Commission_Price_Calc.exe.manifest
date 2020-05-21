@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
-  <asmv1:assemblyIdentity name="Commission_Price_Calc.exe" version="1.0.0.0" publicKeyToken="0000000000000000" language="en-DE" processorArchitecture="msil" type="win32" />
+  <asmv1:assemblyIdentity name="Commission_Price_Calc.exe" version="1.0.0.1" publicKeyToken="0000000000000000" language="en-DE" processorArchitecture="msil" type="win32" />
   <description asmv2:iconFile="comission_price_calculator.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <application />
   <entryPoint>
@@ -50,7 +50,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>/DPDHdoj/kjJ7WMG4yWmAQAoUTFGFzcIqacp7uSyFHg=</dsig:DigestValue>
+        <dsig:DigestValue>fzJXrTFZAsoEAJhAqnqIgpgdoPp0kdxcyRpq84AwrN8=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -69,10 +69,9 @@
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>ML2TSBDKIZIbjLWBPBpaF2kkSqRcN8prP4PXFMwtij8=</dsig:DigestValue>
+      <dsig:DigestValue>uUGclg9fJPE01hE4pPfH1QvlMB2evoIY09HhVC7MmaY=</dsig:DigestValue>
     </hash>
   </file>
-  <fileAssociation extension=".xml" description="Comission Price Calculator Files" progid="cpcfiles" defaultIcon="comission_price_calculator.ico" xmlns="urn:schemas-microsoft-com:clickonce.v1" />
   <compatibility xmlns="urn:schemas-microsoft-com:compatibility.v1">
     <application>
       <!-- A list of the Windows versions that this application has been tested on
