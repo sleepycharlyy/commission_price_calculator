@@ -35,19 +35,20 @@ namespace Commission_Price_Calc
             Settings.Default.Language = comboBoxLanguage.Text;
             Settings.Default.Save();
             changeLabelLang();
-            _mainForm.changeLabelLang();
+            _mainForm.settingsLangLabelsSetter();
         }
 
         private void comboBoxCurrency_SelectedIndexChanged(object sender, EventArgs e)
         {
             Settings.Default.Currency = comboBoxCurrency.Text;
             Settings.Default.Save();
-            _mainForm.changeCurrency();
-            _mainForm.changeLabelLang();
+            _mainForm.settingsCurrencySettingGetter();
+            _mainForm.settingsLangLabelsSetter();
         }
+
         public void changeLabelLang()
         {
-            switch (_mainForm.getLang())
+            switch (_mainForm.settingsLangSettingGetter())
             {
                 case "English":
                     labelCurrency.Text = "Currency";

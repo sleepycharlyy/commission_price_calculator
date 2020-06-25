@@ -14,40 +14,32 @@ namespace Commission_Price_Calc
 {
     public partial class MainForm : Form
     {
-        public String projectName = "";
+        public double time_current_hours = 0.0;
+        public double time_current_minutes = 0.0;
+        public double time_current_seconds = 0.0;
 
-        public double currentHours = 0.0;
-        public double currentMinutes = 0.0;
-        public double currentSeconds = 0.0;
+        public bool main_timer_active = false;
 
-        public bool timer_running = false;
-
-        public string currency = "€";
-
-        public string lang_resetmessage = "";
-        public string lang_resettitle = "";
+        string lang_label_resetproject_message = "";
+        string lang_label_resetproject_title = "";
 
         #region Constructor
         public MainForm()
         {
             InitializeComponent();
 
-            changeCurrency();
-            changeLabelLang();
-            changeTimeLabel();
-
-            //project label
-            switch (getLang())
+            settingsLangLabelsSetter(); //write all the stuff on labels in correct language
+            mainTimeLabelUpdate();
+            
+            switch (settingsLangSettingGetter())
             {
                 case "English":
-                    projectName = "New Project";
+                    labelProject.Text = "New Project";
                     break;
                 case "Deutsch":
-                    projectName = "Neues Projekt";
+                    labelProject.Text = "Neues Projekt";
                     break;
             }
-            //set project name to "new project
-            labelProject.Text = projectName;
 
             //set icon
             this.Icon = Properties.Resources.comission_price_calculator1;
@@ -55,596 +47,587 @@ namespace Commission_Price_Calc
         
         #endregion
 
+        #region Functions
+            #region Settings Functions
+                public string settingsLangSettingGetter() // returns string of the set language setting
+                    {
+                        return Settings.Default["Language"].ToString();
+                    }
 
-        #region Methods
+                public void settingsLangLabelsSetter() // applies every string for the selected language to labels
+                    {
+                        switch (settingsLangSettingGetter()){
+                            case "English":
+                                ButtonCalculate.Text = "Calculate";
+                                LabelResult.Text = "Result: 0" + settingsCurrencySettingGetter();
+                                LabelLog.Text = "Log: ";
+                                LabelTax.Text = "% Tax";
+                                LabelWage.Text = settingsCurrencySettingGetter() + " Per Hour";
+                                LabelBaseCosts.Text = settingsCurrencySettingGetter() + " Base Costs";
+                                LabelHours.Text = "Hours";
+                                LabelMinutes.Text = "Minutes";
+                                ButtonAccept.Text = "Accept";
+                                Remove.Text = "Remove";
+                                Add.Text = "Add";
+                                ButtonReset.Text = "Reset Time";
+                                lang_label_resetproject_message = "Do you really want to reset your Time?";
+                                lang_label_resetproject_title = "Reset Time?";
+                                closeProgramToolStripMenuItem.Text = "Close Program";
+                                loadProjectToolStripMenuItem.Text = "Load Project";
+                                saveProjectToolStripMenuItem.Text = "Save Project";
+                                openPreferencesToolStripMenuItem.Text = "Open Preferences";
+                                infoToolStripMenuItem.Text = "Info";
+                                menuStrip1.Items[0].Text = "File";
+                                menuStrip1.Items[1].Text = "Options";
+                                menuStrip1.Items[2].Text = "Help";
+                                ButtonSave.Text = "Save";
+                                ButtonLoad.Text = "Load";
+                                labelSettings.Text = "Settings";
+                                break;
+                            case "Deutsch":
+                                ButtonCalculate.Text = "Berechnen";
+                                LabelResult.Text = "Ergebnis: 0" + settingsCurrencySettingGetter();
+                                LabelLog.Text = "Protokoll: ";
+                                LabelTax.Text = "% Steuern";
+                                LabelWage.Text = settingsCurrencySettingGetter() + " pro Stunde";
+                                LabelBaseCosts.Text = settingsCurrencySettingGetter() + " Basiskosten";
+                                LabelHours.Text = "Stunden";
+                                LabelMinutes.Text = "Minuten";
+                                ButtonAccept.Text = "Akzeptieren";
+                                Remove.Text = "Subtrahieren";
+                                Add.Text = "Addieren";
+                                ButtonReset.Text = "Zeit Zurücksetzen";
+                                lang_label_resetproject_message = "Wollen Sie Ihre Arbeitszeit wirklich zurücksetzen?";
+                                lang_label_resetproject_title = "Arbeitszeit zurücksetzen?";
+                                closeProgramToolStripMenuItem.Text = "Programm schließen";
+                                loadProjectToolStripMenuItem.Text = "Projekt laden";
+                                saveProjectToolStripMenuItem.Text = "Projekt speichern";
+                                openPreferencesToolStripMenuItem.Text = "Einstellungen öffnen";
+                                infoToolStripMenuItem.Text = "Info";
+                                menuStrip1.Items[0].Text = "Datei";
+                                menuStrip1.Items[1].Text = "Optionen";
+                                menuStrip1.Items[2].Text = "Hilfe";
+                                ButtonSave.Text = "Speichern";
+                                ButtonLoad.Text = "Laden";
+                                labelSettings.Text = "Einstellungen";
+                                break;
+                        }
+
+                         mainTimeLabelUpdate();
+                    }
+
+                public string settingsCurrencySettingGetter() // returns current currency set in settings
+                    {
+                        return Settings.Default.Currency.ToString();
+                    }
+            #endregion
+
+            #region File I/O Functions
+                public void fileSave()
+                {
+                    SaveFileDialog sfd = new SaveFileDialog();
+                    sfd.Filter = "Project File|*.xml";
+                    if (!(sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK))
+                    {
+                        return;
+                    }
+
+                    XmlTextWriter textWriter = new XmlTextWriter(sfd.FileName, null);
+
+                    textWriter.Formatting = Formatting.Indented;
+                    textWriter.WriteStartDocument();
+                    textWriter.WriteStartElement("ProjectFile");
+                    textWriter.WriteElementString("currentMinutes", time_current_minutes.ToString());
+                    textWriter.WriteElementString("currentHours", time_current_hours.ToString());
+                    textWriter.WriteElementString("currentSeconds", time_current_seconds.ToString());
+                    textWriter.WriteElementString("Wage", InputWage.Text);
+                    textWriter.WriteElementString("BaseCosts", InputBaseCosts.Text);
+                    textWriter.WriteElementString("Tax", InputTax.Text);
+                    textWriter.WriteEndDocument();
+                    textWriter.Close();
+
+
+                    switch (settingsLangSettingGetter())
+                    {
+                        case "English":
+                            mainLogWrite("[SAVE] File has been saved at " + sfd.FileName);
+                            break;
+                        case "Deutsch":
+                            mainLogWrite("[SPEICHERN] Datei wurde als " + sfd.FileName + " gespeichert");
+                            break;
+                    }
+
+                    labelProject.Text = sfd.FileName.Split('\\').Last();
+                }
+
+                public void fileLoad()
+                {
+                    OpenFileDialog ofd = new OpenFileDialog();
+                    ofd.Filter = "Project File|*.xml";
+                    if (!(ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK))
+                    {
+                        return;
+                    }
+
+                    XmlTextReader textReader = new XmlTextReader(ofd.FileName);
+                    while (textReader.Read())
+                    {
+                        textReader.MoveToElement();
+                        var name = textReader.Name;
+
+                        if (name == "currentMinutes")
+                        {
+                            time_current_minutes = textReader.ReadElementContentAsDouble();
+                        }
+
+                        if (name == "currentHours")
+                        {
+                            time_current_hours = textReader.ReadElementContentAsDouble();
+                        }
+
+                        if (name == "currentSeconds")
+                        {
+                            time_current_seconds = textReader.ReadElementContentAsDouble();
+                        }
+
+                        if (name == "Tax")
+                        {
+                            InputTax.Text = textReader.ReadElementContentAsString();
+                        }
+
+                        if (name == "Wage")
+                        {
+                            InputWage.Text = textReader.ReadElementContentAsString();
+                        }
+
+                        if (name == "BaseCosts")
+                        {
+                            InputBaseCosts.Text = textReader.ReadElementContentAsString();
+                        }
+                    }
+                    textReader.Close();
+
+
+                    switch (settingsLangSettingGetter())
+                    {
+                        case "English":
+                            mainLogWrite("[LOAD] " + ofd.FileName + " has been loaded");
+                            break;
+                        case "Deutsch":
+                            mainLogWrite("[LADEN] " + ofd.FileName + " wurde geladen");
+                            break;
+                    }
+
+                    labelProject.Text = ofd.FileName.Split('\\').Last();
+                    mainTimeLabelUpdate();
+                    settingsLangLabelsSetter();
+                    settingsCurrencySettingGetter();
+                }
+            #endregion
+        
+            #region Main Functions
+                public void mainLogWrite(string text) // writes to the log
+                {
+                    if (Log.Text == "") { Log.Text = "[" + DateTime.Now + "]: " + text; }
+                    else
+                    { //If logbox is empty dont create a new line
+                        Log.Text += Environment.NewLine + "[" + DateTime.Now + "]: " + text;
+                    }
+                }
+
+                public double mainStringToDouble(string n) // convert string into double and removes any "weird symbols"
+                {
+                    // deleting all €$ type characters
+                    var charsToRemove = new string[] { "€", "$", " ", "%", "£" };
+                    foreach (var c in charsToRemove)
+                    {
+                        n = n.Replace(c, string.Empty);
+                    }
+
+                    // parsing int
+                    try
+                    {
+                        Double number = Double.Parse(n);
+                        return number;
+                    }
+                    catch (Exception e)
+                    {
+                        //if there are normal characters return 0
+                        return 0;
+                    }
+                }
+
+                public void mainTimeLabelUpdate() // updates the label showing the current time
+                {
+                    switch (settingsLangSettingGetter())
+                    {
+                        case "English":
+                            TotalTime.Text = "Total Time Worked: " + time_current_hours + "h " + time_current_minutes + "m " + time_current_seconds + "s";
+                            break;
+                        case "Deutsch":
+                            TotalTime.Text = "Insgesamte Arbeitszeit: " + time_current_hours + "h " + time_current_minutes + "m " + time_current_seconds + "s";
+                            break;
+                    }
+
+                }
+
+                private void mainTimerOnTick(object sender, EventArgs e) // gets run every tick the timer makes (while on)
+                {
+                    time_current_seconds += 1;
+
+                    if (time_current_seconds > 59)
+                    {
+                        time_current_minutes++;
+                        time_current_seconds = 0;
+                    }
+
+                    if (time_current_minutes > 59)
+                    {
+                        time_current_hours++;
+                        time_current_minutes = 0;
+                    }
+
+                    mainTimeLabelUpdate();
+                }
+        #endregion
+        #endregion
+
 
         #region Events
-
-        #region Buttons
-
-        #region Menu Strip
-        private void closeProgramToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
-        private void loadProjectToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            loadFile();
-
-        }
-
-        private void saveProjectToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            saveFile();
-        }
-
-        private void openPreferencesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Preferences preferences = new Preferences(this);
-            preferences.Show();
-        }
-
-        private void infoToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Info info = new Info(this);
-            info.Show();
-        }
-        #endregion
-
-        private void ButtonSave_Click(object sender, EventArgs e)
-        {
-            saveFile();
-        }
-
-        private void ButtonLoad_Click(object sender, EventArgs e)
-        {
-            loadFile();
-        }
-
-        private void ButtonReset_Click(object sender, EventArgs e)
-        {
-            if (timer_running) { return; }
-            if (MessageBox.Show(lang_resetmessage, lang_resettitle, MessageBoxButtons.YesNo, MessageBoxIcon.Warning)
-                == DialogResult.Yes)
-            {
-                currentHours = 0.0;
-                currentMinutes = 0.0;
-                currentSeconds = 0.0;
-                changeTimeLabel();
-                //logging
-                switch (getLang())
+            #region Keyboard KeyPress Events
+                private void InputMinutes_KeyPress(object sender, KeyPressEventArgs e)
                 {
-                    case "English":
-                        addLog("[RESET] " + "Time was reset!");
-                        break;
-                    case "Deutsch":
-                        addLog("[ZURÜCKSETZEN] " + "Die Arbeitszeit wurde zurückgesetzt!");
-                        break;
-                }
-            }
-        }
-
-        private void ButtonStop_Click(object sender, EventArgs e)
-        {
-            ButtonStop.Enabled = false;
-            ButtonStart.Enabled = true;
-
-            ButtonReset.Enabled = true;
-            ButtonCalculate.Enabled = true;
-            ButtonAccept.Enabled = true;
-
-            timer_running = false;
-            timer1.Stop(); //stop timer
-
-            //logging
-            switch (getLang())
-            {
-                case "English":
-                    addLog("[TIMER] " + "Timer has stopped!");
-                    break;
-                case "Deutsch":
-                    addLog("[TIMER] " + "Der Timer wurde angehalten!");
-                    break;
-            }
-        }
-
-        private void ButtonStart_Click(object sender, EventArgs e)
-        {
-            ButtonStop.Enabled = true;
-            ButtonStart.Enabled = false;
-
-            ButtonReset.Enabled = false;
-            ButtonCalculate.Enabled = false;
-            ButtonAccept.Enabled = false;
-
-            timer_running = true;
-            timer1.Start(); //start timer
-
-            //logging
-            switch (getLang())
-            {
-                case "English":
-                    addLog("[TIMER] " + "Timer has started!");
-                    break;
-                case "Deutsch":
-                    addLog("[TIMER] " + "Der Timer wurde gestarten!");
-                    break;
-            }
-        }
-
-        private void ButtonCalculate_Click(object sender, EventArgs e)
-        {
-            //calculate result
-            //get variables
-            double wage = validateNumber(InputWage.Text.Replace(".", ","));
-            double tax = validateNumber(InputTax.Text.Replace(".", ","));
-            double basecosts = validateNumber(InputBaseCosts.Text.Replace(".", ","));
-            double hours = (currentMinutes / 60) + currentHours;
-
-            Double result = (hours * wage); //calculate base result
-            result = result + basecosts; //add basecosts
-            result = result + (result * (tax / 100)); //add tax
-            result = Math.Round(result, 2); //round
-
-            String export = result.ToString();
-
-            if (hours == 0)
-            {
-                switch (getLang())
-                {
-                    case "English":
-                        addLog("[CALCULATE] You need to add Time first!");
-                        break;
-                    case "Deutsch":
-                        addLog("[BERECHNUNG] Sie müssen Zeit zuvor hinzufügen!");
-                        break;
-                }
-
-                return;
-            } //if u havent worked any time just exit this function
-
-            //set label
-            switch (getLang())
-            {
-                case "English":
-                    LabelResult.Text = "Result: " + export + currency;
-                    break;
-                case "Deutsch":
-                    LabelResult.Text = "Ergebnis: " + export + currency;
-                    break;
-            }
-
-
-            //logging
-            switch (getLang())
-            {
-                case "English":
-                    addLog("[CALCULATE] " + "Time: " + currentHours + "h " + currentMinutes + "m, "
-                     + "Basecosts: " + basecosts + currency + ", " + currency + " per h: " + wage + currency + ", " + "Tax: " + tax + "%, "
-                     + "Result: " + export + currency);
-                    break;
-                case "Deutsch":
-                    addLog("[BERECHNUNG] " + "Zeit: " + currentHours + "h " + currentMinutes + "m, "
-                    + "Basiskosten: " + basecosts + currency + ", " + currency + " pro Stunde: " + wage + currency + ", " + "Steuern: " + tax + "%, "
-                    + "Ergebnis: " + export + currency);
-                    break;
-            }
-        }
-
-        private void ButtonAccept_Click(object sender, EventArgs e)
-        {
-            if (timer_running) { return; }
-            double minutes = validateNumber(InputMinutes.Text);
-            double hours = validateNumber(InputHours.Text);
-
-            //delete decimals
-            if (minutes >= 60)
-            { //get hours from minutes
-                var i = minutes / 60;
-                var i_decimals = i - Math.Truncate(i);
-                minutes = Math.Round(i_decimals * 60);
-                hours += Math.Floor(i);
-            }
-
-            minutes = Math.Floor(minutes);
-            hours = Math.Floor(hours);
-
-            bool add = Add.Checked;
-            bool remove = Remove.Checked;
-
-            double beforeHours = currentHours;
-            double beforeMinutes = currentMinutes;
-
-            //if nothings checked
-            if (hours == 0 && minutes == 0)
-            {
-                return;
-            }
-            if (add == false && remove == false)
-            {
-                return;
-            }
-            else //if adds checked
-            if (add == true)
-            {
-                currentHours += hours;
-                currentMinutes += minutes;
-
-                //check if minutes over 59
-                if (currentMinutes >= 60)
-                {
-                    var i = currentMinutes;
-
-                    var i_decimals = i - Math.Truncate(i);
-                    currentMinutes = Math.Round(i_decimals * 60);
-                    currentHours = currentHours + Math.Floor(i);
-                }
-
-                switch (getLang())
-                {
-                    case "English":
-                        addLog("[MANUAL ADD] " + "Time Before: " + beforeHours + "h " + beforeMinutes + "m, "
-                            + "Added: " + hours + "h " + minutes + "m, "
-                            + "Current Time: " + currentHours + "h " + currentMinutes + "m");
-                        break;
-                    case "Deutsch":
-                        addLog("[ZEIT ADDITION] " + "Zeit davor: " + beforeHours + "h " + beforeMinutes + "m, "
-                            + "Addierte Zeit: " + hours + "h " + minutes + "m, "
-                            + "Momentane Zeit: " + currentHours + "h " + currentMinutes + "m");
-                        break;
-                }
-
-                changeTimeLabel();
-
-            }
-            else //if removes checked
-            if (remove == true)
-            {
-                currentHours -= hours;
-                currentMinutes -= minutes;
-
-                //check if 0
-                if (currentMinutes < 0)
-                {
-                    if (currentHours >= 1)
+                    if (!char.IsNumber(e.KeyChar) && !char.IsControl(e.KeyChar))
                     {
-                        currentMinutes = 60 + currentMinutes;
-                        currentHours -= 1;
-                    }
-                    else
-                    {
-                        currentMinutes = 0;
+                        e.Handled = true;
                     }
                 }
-                if (currentHours < 0)
+
+                private void InputHours_KeyPress(object sender, KeyPressEventArgs e)
                 {
-                    currentHours = 0;
-                    currentMinutes = 0;
+                    if (!char.IsNumber(e.KeyChar) && !char.IsControl(e.KeyChar))
+                    {
+                        e.Handled = true;
+                    }
                 }
 
-                switch (getLang())
+                private void InputWage_KeyPress(object sender, KeyPressEventArgs e)
                 {
-                    case "English":
-                        addLog("[MANUAL REMOVE] " + "Time Before: " + beforeHours + "h " + beforeMinutes + "m, "
-                            + "Removed: " + hours + "h " + minutes + "m, "
-                            + "Current Time: " + currentHours + "h " + currentMinutes + "m");
-                        break;
-                    case "Deutsch":
-                        addLog("[ZEIT SUBTRAKTION] " + "Zeit davor: " + beforeHours + "h " + beforeMinutes + "m, "
-                            + "Subtrahierte Zeit: " + hours + "h " + minutes + "m, "
-                            + "Momentane Zeit: " + currentHours + "m " + currentMinutes + "m");
-                        break;
+                    if (!char.IsNumber(e.KeyChar) && !char.IsControl(e.KeyChar) && !char.IsPunctuation(e.KeyChar))
+                    {
+                        e.Handled = true;
+                    }
                 }
 
-                changeTimeLabel();
-            }
+                private void InputBaseCosts_KeyPress(object sender, KeyPressEventArgs e)
+                {
+                    if (!char.IsNumber(e.KeyChar) && !char.IsControl(e.KeyChar) && !char.IsPunctuation(e.KeyChar))
+                    {
+                        e.Handled = true;
+                    }
+                }
+
+                private void InputTax_KeyPress(object sender, KeyPressEventArgs e)
+                {
+                    if (!char.IsNumber(e.KeyChar) && !char.IsControl(e.KeyChar) && !char.IsPunctuation(e.KeyChar))
+                    {
+                        e.Handled = true;
+                    }
+                }
+            #endregion
+
+            #region Object Click Events
+                #region MenuStrip Click Events
+                    private void closeProgramToolStripMenuItem_Click(object sender, EventArgs e)
+                    {
+                        Application.Exit();
+                    }
+
+                    private void loadProjectToolStripMenuItem_Click(object sender, EventArgs e)
+                    {
+                        fileLoad();
+
+                    }
+
+                    private void saveProjectToolStripMenuItem_Click(object sender, EventArgs e)
+                    {
+                        fileSave();
+                    }
 
 
-        }
+                    private void newProjectToolStripMenuItem_Click(object sender, EventArgs e)
+                    {
+                        //TO:DO new project
+                    }
 
-        #endregion
+                    private void openPreferencesToolStripMenuItem_Click(object sender, EventArgs e)
+                    {
+                        Preferences preferences = new Preferences(this);
+                        preferences.Show();
+                    }
 
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            currentSeconds += 1;
+                    private void infoToolStripMenuItem_Click(object sender, EventArgs e)
+                    {
+                        Info info = new Info(this);
+                        info.Show();
+                    }
+                #endregion
 
-            if (currentSeconds > 59)
-            {
-                currentMinutes++;
-                currentSeconds = 0;
-            }
+                #region Button Click Events
+                    private void ButtonReset_Click(object sender, EventArgs e)
+                    {
+                        if (main_timer_active) { return; }
+                        if (MessageBox.Show(lang_label_resetproject_message, lang_label_resetproject_title, MessageBoxButtons.YesNo, MessageBoxIcon.Warning)
+                            == DialogResult.Yes)
+                        {
+                            time_current_hours = 0.0;
+                            time_current_minutes = 0.0;
+                            time_current_seconds = 0.0;
+                            mainTimeLabelUpdate();
 
-            if (currentMinutes > 59)
-            {
-                currentHours++;
-                currentMinutes = 0;
-            }
+                            //logging
+                            switch (settingsLangSettingGetter())
+                            {
+                                case "English":
+                                    mainLogWrite("[RESET] " + "Time was reset!");
+                                    break;
+                                case "Deutsch":
+                                    mainLogWrite("[ZURÜCKSETZEN] " + "Die Arbeitszeit wurde zurückgesetzt!");
+                                    break;
+                            }
+                        }
+                    }
 
-            changeTimeLabel();
-        }
+                    private void ButtonStop_Click(object sender, EventArgs e)
+                    {
+                        ButtonStop.Enabled = false;
+                        ButtonStart.Enabled = true;
 
-        private void InputMinutes_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!char.IsNumber(e.KeyChar) && !char.IsControl(e.KeyChar))
-            {
-                e.Handled = true;
-            }
-        }
+                        ButtonReset.Enabled = true;
+                        ButtonCalculate.Enabled = true;
+                        ButtonAccept.Enabled = true;
 
-        private void InputHours_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!char.IsNumber(e.KeyChar) && !char.IsControl(e.KeyChar))
-            {
-                e.Handled = true;
-            }
-        }
+                        main_timer_active = false;
+                        timer.Stop(); //stop timer
 
-        private void InputWage_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!char.IsNumber(e.KeyChar) && !char.IsControl(e.KeyChar) && !char.IsPunctuation(e.KeyChar))
-            {
-                e.Handled = true;
-            }
-        }
-
-        private void InputBaseCosts_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!char.IsNumber(e.KeyChar) && !char.IsControl(e.KeyChar) && !char.IsPunctuation(e.KeyChar))
-            {
-                e.Handled = true;
-            }
-        }
-
-        private void InputTax_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!char.IsNumber(e.KeyChar) && !char.IsControl(e.KeyChar) && !char.IsPunctuation(e.KeyChar))
-            {
-                e.Handled = true;
-            }
-        }
-        #endregion
-
-
-
-        #region Misc
-        public void changeTimeLabel()
-        {
-            switch (getLang())
-            {
-                case "English": 
-                                TotalTime.Text = "Total Time Worked: " + currentHours + "h " + currentMinutes + "m " + currentSeconds + "s";
+                        //logging
+                        switch (settingsLangSettingGetter())
+                        {
+                            case "English":
+                                mainLogWrite("[TIMER] " + "Timer has stopped!");
                                 break;
-                case "Deutsch":
-                                TotalTime.Text = "Insgesamte Arbeitszeit: " + currentHours + "h " + currentMinutes + "m " + currentSeconds + "s";
+                            case "Deutsch":
+                                mainLogWrite("[TIMER] " + "Der Timer wurde angehalten!");
                                 break;
-            }
-           
-        }
+                        }
+                    }
 
-        public void addLog(string text)
-        {
-            if (Log.Text == "") { Log.Text = "[" + DateTime.Now + "]: " + text; }
-            else
-            { //If logbox is empty dont create a new line
-                Log.Text += Environment.NewLine + "[" + DateTime.Now + "]: " + text;
-            }
-        }
-        
-        public double validateNumber(string n)
-        {
-            // deleting all €$ type characters
-            var charsToRemove = new string[] { "€", "$", " ", "%", "£"};
-            foreach (var c in charsToRemove)
-            {
-                n = n.Replace(c, string.Empty);
-            }
+                    private void ButtonStart_Click(object sender, EventArgs e)
+                    {
+                        ButtonStop.Enabled = true;
+                        ButtonStart.Enabled = false;
 
-            // parsing int
-            try
-            {
-                Double number = Double.Parse(n);
-                return number;
-            }   catch (Exception e)
-            {
-                //if there are normal characters return 0
-                return 0;
-            }
-        }
+                        ButtonReset.Enabled = false;
+                        ButtonCalculate.Enabled = false;
+                        ButtonAccept.Enabled = false;
 
-        public string getLang()
-        {
-            return Settings.Default["Language"].ToString();
-        }
+                        main_timer_active = true;
+                        timer.Start(); //start timer
 
-        public void changeLabelLang()
-        {
-            switch (getLang())
-            {
-                case "English":
-                    ButtonCalculate.Text = "Calculate";
-                    LabelResult.Text = "Result: 0" + currency;
-                    LabelLog.Text = "Log: ";
-                    LabelTax.Text = "% Tax";
-                    LabelWage.Text = currency + " Per Hour";
-                    LabelBaseCosts.Text = currency + " Base Costs";
-                    LabelHours.Text = "Hours";
-                    LabelMinutes.Text = "Minutes";
-                    ButtonAccept.Text = "Accept";
-                    Remove.Text = "Remove";
-                    Add.Text = "Add";
-                    ButtonReset.Text = "Reset Time";
-                    lang_resetmessage = "Do you really want to reset your Time?";
-                    lang_resettitle = "Reset Time?";
-                    closeProgramToolStripMenuItem.Text = "Close Program";
-                    loadProjectToolStripMenuItem.Text = "Load Project";
-                    saveProjectToolStripMenuItem.Text = "Save Project";
-                    openPreferencesToolStripMenuItem.Text = "Open Preferences";
-                    infoToolStripMenuItem.Text = "Info";
-                    menuStrip1.Items[0].Text = "File";
-                    menuStrip1.Items[1].Text = "Options";
-                    menuStrip1.Items[2].Text = "Help";
-                    ButtonSave.Text = "Save";
-                    ButtonLoad.Text = "Load";
-                    labelSettings.Text = "Settings";
-                    break;
-                case "Deutsch":
-                    ButtonCalculate.Text = "Berechnen";
-                    LabelResult.Text = "Ergebnis: 0" + currency;
-                    LabelLog.Text = "Protokoll: ";
-                    LabelTax.Text = "% Steuern";
-                    LabelWage.Text = currency + " pro Stunde";
-                    LabelBaseCosts.Text = currency + " Basiskosten";
-                    LabelHours.Text = "Stunden";
-                    LabelMinutes.Text = "Minuten";
-                    ButtonAccept.Text = "Akzeptieren";
-                    Remove.Text = "Subtrahieren";
-                    Add.Text = "Addieren";
-                    ButtonReset.Text = "Zeit Zurücksetzen";
-                    lang_resetmessage = "Wollen Sie Ihre Arbeitszeit wirklich zurücksetzen?";
-                    lang_resettitle = "Arbeitszeit zurücksetzen?";
-                    closeProgramToolStripMenuItem.Text = "Programm schließen";
-                    loadProjectToolStripMenuItem.Text = "Projekt laden";
-                    saveProjectToolStripMenuItem.Text = "Projekt speichern";
-                    openPreferencesToolStripMenuItem.Text = "Einstellungen öffnen";
-                    infoToolStripMenuItem.Text = "Info";
-                    menuStrip1.Items[0].Text = "Datei";
-                    menuStrip1.Items[1].Text = "Optionen";
-                    menuStrip1.Items[2].Text = "Hilfe";
-                    ButtonSave.Text = "Speichern";
-                    ButtonLoad.Text = "Laden";
-                    labelSettings.Text = "Einstellungen";
-                    break;
-            }
-        }
+                        //logging
+                        switch (settingsLangSettingGetter())
+                        {
+                            case "English":
+                                mainLogWrite("[TIMER] " + "Timer has started!");
+                                break;
+                            case "Deutsch":
+                                mainLogWrite("[TIMER] " + "Der Timer wurde gestarten!");
+                                break;
+                        }
+                    }
 
-        public void changeCurrency()
-        {
-            switch (Settings.Default.Currency.ToString())
-            {
-                case "€":
-                    currency = "€";
-                    break;
-                case "$":
-                    currency = "$";
-                    break;
-                case "£":
-                    currency = "£";
-                    break;
-            }
-        }
-        
-        public void saveFile()
-        {
-            SaveFileDialog sfd = new SaveFileDialog();
-            sfd.Filter = "Project File|*.xml";
-            if (!(sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK))
-            {
-                return;
-            }
+                    private void ButtonCalculate_Click(object sender, EventArgs e)
+                    {
+                        //calculate result
+                        //get variables
+                        double wage = mainStringToDouble(InputWage.Text.Replace(".", ","));
+                        double tax = mainStringToDouble(InputTax.Text.Replace(".", ","));
+                        double basecosts = mainStringToDouble(InputBaseCosts.Text.Replace(".", ","));
+                        double hours = (time_current_minutes / 60) + time_current_hours;
 
-            XmlTextWriter textWriter = new XmlTextWriter(sfd.FileName, null);
+                        Double result = (hours * wage); //calculate base result
+                        result = result + basecosts; //add basecosts
+                        result = result + (result * (tax / 100)); //add tax
+                        result = Math.Round(result, 2); //round
 
-            textWriter.Formatting = Formatting.Indented;
-            textWriter.WriteStartDocument();
-            textWriter.WriteStartElement("ProjectFile");
-            textWriter.WriteElementString("currentMinutes", currentMinutes.ToString());
-            textWriter.WriteElementString("currentHours", currentHours.ToString());
-            textWriter.WriteElementString("currentSeconds", currentSeconds.ToString());
-            textWriter.WriteElementString("Wage", InputWage.Text);
-            textWriter.WriteElementString("BaseCosts", InputBaseCosts.Text);
-            textWriter.WriteElementString("Tax", InputTax.Text);
-            textWriter.WriteEndDocument();
-            textWriter.Close();
+                        String export = result.ToString();
+
+                        if (hours == 0)
+                        {
+                            switch (settingsLangSettingGetter())
+                            {
+                                case "English":
+                                    mainLogWrite("[CALCULATE] You need to add Time first!");
+                                    break;
+                                case "Deutsch":
+                                    mainLogWrite("[BERECHNUNG] Sie müssen Zeit zuvor hinzufügen!");
+                                    break;
+                            }
+
+                            return;
+                        } //if u havent worked any time just exit this function
+
+                        //set label
+                        switch (settingsLangSettingGetter())
+                        {
+                            case "English":
+                                LabelResult.Text = "Result: " + export + settingsCurrencySettingGetter();
+                                break;
+                            case "Deutsch":
+                                LabelResult.Text = "Ergebnis: " + export + settingsCurrencySettingGetter();
+                                break;
+                        }
 
 
-            switch (getLang())
-            {
-                case "English":
-                    addLog("[SAVE] File has been saved at "+ sfd.FileName);
-                    break;
-                case "Deutsch":
-                    addLog("[SPEICHERN] Datei wurde als " + sfd.FileName + " gespeichert");
-                    break;
-            }
+                        //logging
+                        switch (settingsLangSettingGetter())
+                        {
+                            case "English":
+                                mainLogWrite("[CALCULATE] " + "Time: " + time_current_hours + "h " + time_current_minutes + "m, "
+                                 + "Basecosts: " + basecosts + settingsCurrencySettingGetter() + ", " + settingsCurrencySettingGetter() + " per h: " + wage + settingsCurrencySettingGetter() + ", " + "Tax: " + tax + "%, "
+                                 + "Result: " + export + settingsCurrencySettingGetter());
+                                break;
+                            case "Deutsch":
+                                mainLogWrite("[BERECHNUNG] " + "Zeit: " + time_current_hours + "h " + time_current_minutes + "m, "
+                                + "Basiskosten: " + basecosts + settingsCurrencySettingGetter() + ", " + settingsCurrencySettingGetter() + " pro Stunde: " + wage + settingsCurrencySettingGetter() + ", " + "Steuern: " + tax + "%, "
+                                + "Ergebnis: " + export + settingsCurrencySettingGetter());
+                                break;
+                        }
+                    }
 
-            var proName = sfd.FileName.Split('\\').Last();
-            projectName = proName;
-            labelProject.Text = projectName;
-        }
-        
-        public void loadFile()
-        {
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "Project File|*.xml";
-            if (!(ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK))
-            {
-                return;
-            }
+                    private void ButtonAccept_Click(object sender, EventArgs e)
+                    {
+                        if (main_timer_active) { return; }
+                        double minutes = mainStringToDouble(InputMinutes.Text);
+                        double hours = mainStringToDouble(InputHours.Text);
 
-            XmlTextReader textReader = new XmlTextReader(ofd.FileName);
-            while (textReader.Read())
-            {
-                textReader.MoveToElement();
-                var name = textReader.Name;
+                        //delete decimals
+                        if (minutes >= 60)
+                            { //get hours from minutes
+                                var i = minutes / 60;
+                                var i_decimals = i - Math.Truncate(i);
+                                minutes = Math.Round(i_decimals * 60);
+                                hours += Math.Floor(i);
+                            }
+                        minutes = Math.Floor(minutes);
+                        hours = Math.Floor(hours);
 
-                if(name == "currentMinutes")
-                {
-                    currentMinutes = textReader.ReadElementContentAsDouble();
-                }
+                        bool add = Add.Checked;
+                        bool remove = Remove.Checked;
 
-                if (name == "currentHours")
-                {
-                    currentHours = textReader.ReadElementContentAsDouble();
-                }
+                        double beforeHours = time_current_hours;
+                        double beforeMinutes = time_current_minutes;
 
-                if (name == "currentSeconds")
-                {
-                    currentSeconds = textReader.ReadElementContentAsDouble();
-                }
+                        //if nothings checked
+                        if (hours == 0 && minutes == 0)
+                        {
+                            return;
+                        }
+                        if (add == false && remove == false)
+                        {
+                            return;
+                        }
 
-                if (name == "Tax")
-                {
-                    InputTax.Text = textReader.ReadElementContentAsString();
-                }
+                        else //if adds checked
+                        if (add == true)
+                        {
+                            time_current_hours += hours;
+                            time_current_minutes += minutes;
 
-                if (name == "Wage")
-                {
-                    InputWage.Text = textReader.ReadElementContentAsString();
-                }
+                            //check if minutes over 59
+                            if (time_current_minutes >= 60)
+                            {
+                                var i = time_current_minutes;
 
-                if (name == "BaseCosts")
-                {
-                    InputBaseCosts.Text = textReader.ReadElementContentAsString();
-                }
-            }
-            textReader.Close();
+                                var i_decimals = i - Math.Truncate(i);
+                                time_current_minutes = Math.Round(i_decimals * 60);
+                                time_current_hours = time_current_hours + Math.Floor(i);
+                            }
+
+                            switch (settingsLangSettingGetter())
+                            {
+                                case "English":
+                                    mainLogWrite("[MANUAL ADD] " + "Time Before: " + beforeHours + "h " + beforeMinutes + "m, "
+                                        + "Added: " + hours + "h " + minutes + "m, "
+                                        + "Current Time: " + time_current_hours + "h " + time_current_minutes + "m");
+                                    break;
+                                case "Deutsch":
+                                    mainLogWrite("[ZEIT ADDITION] " + "Zeit davor: " + beforeHours + "h " + beforeMinutes + "m, "
+                                        + "Addierte Zeit: " + hours + "h " + minutes + "m, "
+                                        + "Momentane Zeit: " + time_current_hours + "h " + time_current_minutes + "m");
+                                    break;
+                            }
+
+                            mainTimeLabelUpdate();
+
+                        }
+                        else //if removes checked
+                        if (remove == true)
+                        {
+                            time_current_hours -= hours;
+                            time_current_minutes -= minutes;
+
+                            //check if 0
+                            if (time_current_minutes < 0)
+                            {
+                                if (time_current_hours >= 1)
+                                {
+                                    time_current_minutes = 60 + time_current_minutes;
+                                    time_current_hours -= 1;
+                                }
+                                else
+                                {
+                                    time_current_minutes = 0;
+                                }
+                            }
+                            if (time_current_hours < 0)
+                            {
+                                time_current_hours = 0;
+                                time_current_minutes = 0;
+                            }
+
+                            switch (settingsLangSettingGetter())
+                            {
+                                case "English":
+                                    mainLogWrite("[MANUAL REMOVE] " + "Time Before: " + beforeHours + "h " + beforeMinutes + "m, "
+                                        + "Removed: " + hours + "h " + minutes + "m, "
+                                        + "Current Time: " + time_current_hours + "h " + time_current_minutes + "m");
+                                    break;
+                                case "Deutsch":
+                                    mainLogWrite("[ZEIT SUBTRAKTION] " + "Zeit davor: " + beforeHours + "h " + beforeMinutes + "m, "
+                                        + "Subtrahierte Zeit: " + hours + "h " + minutes + "m, "
+                                        + "Momentane Zeit: " + time_current_hours + "m " + time_current_minutes + "m");
+                                    break;
+                            }
+
+                            mainTimeLabelUpdate();
+                        }
 
 
-            switch (getLang())
-            {
-                case "English":
-                    addLog("[LOAD] " + ofd.FileName + " has been loaded");
-                    break;
-                case "Deutsch":
-                    addLog("[LADEN] " + ofd.FileName + " wurde geladen");
-                    break;
-            }
+                    }
 
-            var proName = ofd.FileName.Split('\\').Last();
-            projectName = proName;
-            labelProject.Text = projectName;
-            changeTimeLabel();
-            changeLabelLang();
-            changeCurrency();
-        }
+                    private void ButtonSave_Click(object sender, EventArgs e)
+                    {
+                        fileSave();
+                    }
 
+                    private void ButtonLoad_Click(object sender, EventArgs e)
+                    {
+                        fileLoad();
+                    }
+                #endregion
+            #endregion
         #endregion
-
-      
-        #endregion
-
-
     }
 
 }
