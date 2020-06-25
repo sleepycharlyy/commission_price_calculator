@@ -28,10 +28,10 @@ namespace Commission_Price_Calc
         {
             InitializeComponent();
 
-            settingsLangLabelsSetter(); //write all the stuff on labels in correct language
-            mainTimeLabelUpdate();
+            settings_lang_settings_set(); //write all the stuff on labels in correct language
+            main_time_label_update();
             
-            switch (settingsLangSettingGetter())
+            switch (settings_lang_setting_get())
             {
                 case "English":
                     labelProject.Text = "New Project";
@@ -44,26 +44,31 @@ namespace Commission_Price_Calc
             //set icon
             this.Icon = Properties.Resources.comission_price_calculator1;
         }
-        
+
         #endregion
 
         #region Functions
             #region Settings Functions
-                public string settingsLangSettingGetter() // returns string of the set language setting
+                public string settings_currency_setting_get() // returns current currency set in settings
+                    {
+                        return Settings.Default.Currency.ToString();
+                    }
+
+                public string settings_lang_setting_get() // returns string of the set language setting
                     {
                         return Settings.Default["Language"].ToString();
                     }
 
-                public void settingsLangLabelsSetter() // applies every string for the selected language to labels
+                public void settings_lang_settings_set() // applies every string for the selected language to labels
                     {
-                        switch (settingsLangSettingGetter()){
+                        switch (settings_lang_setting_get()){
                             case "English":
                                 ButtonCalculate.Text = "Calculate";
-                                LabelResult.Text = "Result: 0" + settingsCurrencySettingGetter();
+                                LabelResult.Text = "Result: 0" + settings_currency_setting_get();
                                 LabelLog.Text = "Log: ";
                                 LabelTax.Text = "% Tax";
-                                LabelWage.Text = settingsCurrencySettingGetter() + " Per Hour";
-                                LabelBaseCosts.Text = settingsCurrencySettingGetter() + " Base Costs";
+                                LabelWage.Text = settings_currency_setting_get() + " Per Hour";
+                                LabelBaseCosts.Text = settings_currency_setting_get() + " Base Costs";
                                 LabelHours.Text = "Hours";
                                 LabelMinutes.Text = "Minutes";
                                 ButtonAccept.Text = "Accept";
@@ -86,11 +91,11 @@ namespace Commission_Price_Calc
                                 break;
                             case "Deutsch":
                                 ButtonCalculate.Text = "Berechnen";
-                                LabelResult.Text = "Ergebnis: 0" + settingsCurrencySettingGetter();
+                                LabelResult.Text = "Ergebnis: 0" + settings_currency_setting_get();
                                 LabelLog.Text = "Protokoll: ";
                                 LabelTax.Text = "% Steuern";
-                                LabelWage.Text = settingsCurrencySettingGetter() + " pro Stunde";
-                                LabelBaseCosts.Text = settingsCurrencySettingGetter() + " Basiskosten";
+                                LabelWage.Text = settings_currency_setting_get() + " pro Stunde";
+                                LabelBaseCosts.Text = settings_currency_setting_get() + " Basiskosten";
                                 LabelHours.Text = "Stunden";
                                 LabelMinutes.Text = "Minuten";
                                 ButtonAccept.Text = "Akzeptieren";
@@ -113,17 +118,12 @@ namespace Commission_Price_Calc
                                 break;
                         }
 
-                         mainTimeLabelUpdate();
-                    }
-
-                public string settingsCurrencySettingGetter() // returns current currency set in settings
-                    {
-                        return Settings.Default.Currency.ToString();
+                         main_time_label_update();
                     }
             #endregion
 
             #region File I/O Functions
-                public void fileSave()
+                public void file_save() // project file saving function
                 {
                     SaveFileDialog sfd = new SaveFileDialog();
                     sfd.Filter = "Project File|*.xml";
@@ -147,21 +147,21 @@ namespace Commission_Price_Calc
                     textWriter.Close();
 
 
-                    switch (settingsLangSettingGetter())
+                    switch (settings_lang_setting_get())
                     {
                         case "English":
-                            mainLogWrite("[SAVE] File has been saved at " + sfd.FileName);
+                            main_log_write("[SAVE] File has been saved at " + sfd.FileName);
                             break;
                         case "Deutsch":
-                            mainLogWrite("[SPEICHERN] Datei wurde als " + sfd.FileName + " gespeichert");
+                            main_log_write("[SPEICHERN] Datei wurde als " + sfd.FileName + " gespeichert");
                             break;
                     }
 
                     labelProject.Text = sfd.FileName.Split('\\').Last();
                 }
 
-                public void fileLoad()
-                {
+                public void file_load()  // project file loading function
+        {
                     OpenFileDialog ofd = new OpenFileDialog();
                     ofd.Filter = "Project File|*.xml";
                     if (!(ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK))
@@ -208,25 +208,25 @@ namespace Commission_Price_Calc
                     textReader.Close();
 
 
-                    switch (settingsLangSettingGetter())
+                    switch (settings_lang_setting_get())
                     {
                         case "English":
-                            mainLogWrite("[LOAD] " + ofd.FileName + " has been loaded");
+                            main_log_write("[LOAD] " + ofd.FileName + " has been loaded");
                             break;
                         case "Deutsch":
-                            mainLogWrite("[LADEN] " + ofd.FileName + " wurde geladen");
+                            main_log_write("[LADEN] " + ofd.FileName + " wurde geladen");
                             break;
                     }
 
                     labelProject.Text = ofd.FileName.Split('\\').Last();
-                    mainTimeLabelUpdate();
-                    settingsLangLabelsSetter();
-                    settingsCurrencySettingGetter();
+                    main_time_label_update();
+                    settings_lang_settings_set();
+                    settings_currency_setting_get();
                 }
             #endregion
         
             #region Main Functions
-                public void mainLogWrite(string text) // writes to the log
+                public void main_log_write(string text) // writes to the log
                 {
                     if (Log.Text == "") { Log.Text = "[" + DateTime.Now + "]: " + text; }
                     else
@@ -235,7 +235,7 @@ namespace Commission_Price_Calc
                     }
                 }
 
-                public double mainStringToDouble(string n) // convert string into double and removes any "weird symbols"
+                public double main_stringtodouble(string n) // convert string into double and removes any "weird symbols"
                 {
                     // deleting all €$ type characters
                     var charsToRemove = new string[] { "€", "$", " ", "%", "£" };
@@ -257,9 +257,9 @@ namespace Commission_Price_Calc
                     }
                 }
 
-                public void mainTimeLabelUpdate() // updates the label showing the current time
+                public void main_time_label_update() // updates the label showing the current time
                 {
-                    switch (settingsLangSettingGetter())
+                    switch (settings_lang_setting_get())
                     {
                         case "English":
                             TotalTime.Text = "Total Time Worked: " + time_current_hours + "h " + time_current_minutes + "m " + time_current_seconds + "s";
@@ -271,7 +271,7 @@ namespace Commission_Price_Calc
 
                 }
 
-                private void mainTimerOnTick(object sender, EventArgs e) // gets run every tick the timer makes (while on)
+                private void main_timer_ontick(object sender, EventArgs e) // gets run every tick the timer makes (while on)
                 {
                     time_current_seconds += 1;
 
@@ -287,11 +287,10 @@ namespace Commission_Price_Calc
                         time_current_minutes = 0;
                     }
 
-                    mainTimeLabelUpdate();
+                    main_time_label_update();
                 }
         #endregion
         #endregion
-
 
         #region Events
             #region Keyboard KeyPress Events
@@ -345,20 +344,52 @@ namespace Commission_Price_Calc
 
                     private void loadProjectToolStripMenuItem_Click(object sender, EventArgs e)
                     {
-                        fileLoad();
-
+                        file_load();
                     }
 
                     private void saveProjectToolStripMenuItem_Click(object sender, EventArgs e)
                     {
-                        fileSave();
+                        file_save();
                     }
-
 
                     private void newProjectToolStripMenuItem_Click(object sender, EventArgs e)
-                    {
-                        //TO:DO new project
-                    }
+                        {
+                            time_current_hours = 0.0;
+                            time_current_minutes = 0.0;
+                            time_current_seconds = 0.0;
+                            main_timer_active = false;
+
+                            main_time_label_update();
+                            settings_lang_settings_set();
+                            settings_currency_setting_get();
+
+                            InputTax.Text = "0.0";
+                            InputWage.Text = "10.00";
+                            InputBaseCosts.Text = "0.0";
+            
+
+                            switch (settings_lang_setting_get())
+                                {
+                                    case "English":
+                                        labelProject.Text = "New Project";
+                                        break;
+                                    case "Deutsch":
+                                        labelProject.Text = "Neues Projekt";
+                                        break;
+                                }
+
+
+                            //logging
+                            switch (settings_lang_setting_get())
+                                {
+                                    case "English":
+                                        main_log_write("[RESET] The project file was reset!");
+                                        break;
+                                    case "Deutsch":
+                                        main_log_write("[ZURÜCKSETZEN] Die Projektdatei wurde zurückgesetzt!");
+                                        break;
+                                }
+                        }
 
                     private void openPreferencesToolStripMenuItem_Click(object sender, EventArgs e)
                     {
@@ -383,16 +414,16 @@ namespace Commission_Price_Calc
                             time_current_hours = 0.0;
                             time_current_minutes = 0.0;
                             time_current_seconds = 0.0;
-                            mainTimeLabelUpdate();
+                            main_time_label_update();
 
                             //logging
-                            switch (settingsLangSettingGetter())
+                            switch (settings_lang_setting_get())
                             {
                                 case "English":
-                                    mainLogWrite("[RESET] " + "Time was reset!");
+                                    main_log_write("[RESET] " + "Time was reset!");
                                     break;
                                 case "Deutsch":
-                                    mainLogWrite("[ZURÜCKSETZEN] " + "Die Arbeitszeit wurde zurückgesetzt!");
+                                    main_log_write("[ZURÜCKSETZEN] " + "Die Arbeitszeit wurde zurückgesetzt!");
                                     break;
                             }
                         }
@@ -411,13 +442,13 @@ namespace Commission_Price_Calc
                         timer.Stop(); //stop timer
 
                         //logging
-                        switch (settingsLangSettingGetter())
+                        switch (settings_lang_setting_get())
                         {
                             case "English":
-                                mainLogWrite("[TIMER] " + "Timer has stopped!");
+                                main_log_write("[TIMER] " + "Timer has stopped!");
                                 break;
                             case "Deutsch":
-                                mainLogWrite("[TIMER] " + "Der Timer wurde angehalten!");
+                                main_log_write("[TIMER] " + "Der Timer wurde angehalten!");
                                 break;
                         }
                     }
@@ -435,13 +466,13 @@ namespace Commission_Price_Calc
                         timer.Start(); //start timer
 
                         //logging
-                        switch (settingsLangSettingGetter())
+                        switch (settings_lang_setting_get())
                         {
                             case "English":
-                                mainLogWrite("[TIMER] " + "Timer has started!");
+                                main_log_write("[TIMER] " + "Timer has started!");
                                 break;
                             case "Deutsch":
-                                mainLogWrite("[TIMER] " + "Der Timer wurde gestarten!");
+                                main_log_write("[TIMER] " + "Der Timer wurde gestarten!");
                                 break;
                         }
                     }
@@ -450,9 +481,9 @@ namespace Commission_Price_Calc
                     {
                         //calculate result
                         //get variables
-                        double wage = mainStringToDouble(InputWage.Text.Replace(".", ","));
-                        double tax = mainStringToDouble(InputTax.Text.Replace(".", ","));
-                        double basecosts = mainStringToDouble(InputBaseCosts.Text.Replace(".", ","));
+                        double wage = main_stringtodouble(InputWage.Text.Replace(".", ","));
+                        double tax = main_stringtodouble(InputTax.Text.Replace(".", ","));
+                        double basecosts = main_stringtodouble(InputBaseCosts.Text.Replace(".", ","));
                         double hours = (time_current_minutes / 60) + time_current_hours;
 
                         Double result = (hours * wage); //calculate base result
@@ -464,13 +495,13 @@ namespace Commission_Price_Calc
 
                         if (hours == 0)
                         {
-                            switch (settingsLangSettingGetter())
+                            switch (settings_lang_setting_get())
                             {
                                 case "English":
-                                    mainLogWrite("[CALCULATE] You need to add Time first!");
+                                    main_log_write("[CALCULATE] You need to add Time first!");
                                     break;
                                 case "Deutsch":
-                                    mainLogWrite("[BERECHNUNG] Sie müssen Zeit zuvor hinzufügen!");
+                                    main_log_write("[BERECHNUNG] Sie müssen Zeit zuvor hinzufügen!");
                                     break;
                             }
 
@@ -478,29 +509,29 @@ namespace Commission_Price_Calc
                         } //if u havent worked any time just exit this function
 
                         //set label
-                        switch (settingsLangSettingGetter())
+                        switch (settings_lang_setting_get())
                         {
                             case "English":
-                                LabelResult.Text = "Result: " + export + settingsCurrencySettingGetter();
+                                LabelResult.Text = "Result: " + export + settings_currency_setting_get();
                                 break;
                             case "Deutsch":
-                                LabelResult.Text = "Ergebnis: " + export + settingsCurrencySettingGetter();
+                                LabelResult.Text = "Ergebnis: " + export + settings_currency_setting_get();
                                 break;
                         }
 
 
                         //logging
-                        switch (settingsLangSettingGetter())
+                        switch (settings_lang_setting_get())
                         {
                             case "English":
-                                mainLogWrite("[CALCULATE] " + "Time: " + time_current_hours + "h " + time_current_minutes + "m, "
-                                 + "Basecosts: " + basecosts + settingsCurrencySettingGetter() + ", " + settingsCurrencySettingGetter() + " per h: " + wage + settingsCurrencySettingGetter() + ", " + "Tax: " + tax + "%, "
-                                 + "Result: " + export + settingsCurrencySettingGetter());
+                                main_log_write("[CALCULATE] " + "Time: " + time_current_hours + "h " + time_current_minutes + "m, "
+                                 + "Basecosts: " + basecosts + settings_currency_setting_get() + ", " + settings_currency_setting_get() + " per h: " + wage + settings_currency_setting_get() + ", " + "Tax: " + tax + "%, "
+                                 + "Result: " + export + settings_currency_setting_get());
                                 break;
                             case "Deutsch":
-                                mainLogWrite("[BERECHNUNG] " + "Zeit: " + time_current_hours + "h " + time_current_minutes + "m, "
-                                + "Basiskosten: " + basecosts + settingsCurrencySettingGetter() + ", " + settingsCurrencySettingGetter() + " pro Stunde: " + wage + settingsCurrencySettingGetter() + ", " + "Steuern: " + tax + "%, "
-                                + "Ergebnis: " + export + settingsCurrencySettingGetter());
+                                main_log_write("[BERECHNUNG] " + "Zeit: " + time_current_hours + "h " + time_current_minutes + "m, "
+                                + "Basiskosten: " + basecosts + settings_currency_setting_get() + ", " + settings_currency_setting_get() + " pro Stunde: " + wage + settings_currency_setting_get() + ", " + "Steuern: " + tax + "%, "
+                                + "Ergebnis: " + export + settings_currency_setting_get());
                                 break;
                         }
                     }
@@ -508,8 +539,8 @@ namespace Commission_Price_Calc
                     private void ButtonAccept_Click(object sender, EventArgs e)
                     {
                         if (main_timer_active) { return; }
-                        double minutes = mainStringToDouble(InputMinutes.Text);
-                        double hours = mainStringToDouble(InputHours.Text);
+                        double minutes = main_stringtodouble(InputMinutes.Text);
+                        double hours = main_stringtodouble(InputHours.Text);
 
                         //delete decimals
                         if (minutes >= 60)
@@ -554,21 +585,21 @@ namespace Commission_Price_Calc
                                 time_current_hours = time_current_hours + Math.Floor(i);
                             }
 
-                            switch (settingsLangSettingGetter())
+                            switch (settings_lang_setting_get())
                             {
                                 case "English":
-                                    mainLogWrite("[MANUAL ADD] " + "Time Before: " + beforeHours + "h " + beforeMinutes + "m, "
+                                    main_log_write("[MANUAL ADD] " + "Time Before: " + beforeHours + "h " + beforeMinutes + "m, "
                                         + "Added: " + hours + "h " + minutes + "m, "
                                         + "Current Time: " + time_current_hours + "h " + time_current_minutes + "m");
                                     break;
                                 case "Deutsch":
-                                    mainLogWrite("[ZEIT ADDITION] " + "Zeit davor: " + beforeHours + "h " + beforeMinutes + "m, "
+                                    main_log_write("[ZEIT ADDITION] " + "Zeit davor: " + beforeHours + "h " + beforeMinutes + "m, "
                                         + "Addierte Zeit: " + hours + "h " + minutes + "m, "
                                         + "Momentane Zeit: " + time_current_hours + "h " + time_current_minutes + "m");
                                     break;
                             }
 
-                            mainTimeLabelUpdate();
+                            main_time_label_update();
 
                         }
                         else //if removes checked
@@ -596,21 +627,21 @@ namespace Commission_Price_Calc
                                 time_current_minutes = 0;
                             }
 
-                            switch (settingsLangSettingGetter())
+                            switch (settings_lang_setting_get())
                             {
                                 case "English":
-                                    mainLogWrite("[MANUAL REMOVE] " + "Time Before: " + beforeHours + "h " + beforeMinutes + "m, "
+                                    main_log_write("[MANUAL REMOVE] " + "Time Before: " + beforeHours + "h " + beforeMinutes + "m, "
                                         + "Removed: " + hours + "h " + minutes + "m, "
                                         + "Current Time: " + time_current_hours + "h " + time_current_minutes + "m");
                                     break;
                                 case "Deutsch":
-                                    mainLogWrite("[ZEIT SUBTRAKTION] " + "Zeit davor: " + beforeHours + "h " + beforeMinutes + "m, "
+                                    main_log_write("[ZEIT SUBTRAKTION] " + "Zeit davor: " + beforeHours + "h " + beforeMinutes + "m, "
                                         + "Subtrahierte Zeit: " + hours + "h " + minutes + "m, "
                                         + "Momentane Zeit: " + time_current_hours + "m " + time_current_minutes + "m");
                                     break;
                             }
 
-                            mainTimeLabelUpdate();
+                            main_time_label_update();
                         }
 
 
@@ -618,12 +649,12 @@ namespace Commission_Price_Calc
 
                     private void ButtonSave_Click(object sender, EventArgs e)
                     {
-                        fileSave();
+                        file_save();
                     }
 
                     private void ButtonLoad_Click(object sender, EventArgs e)
                     {
-                        fileLoad();
+                        file_load();
                     }
                 #endregion
             #endregion

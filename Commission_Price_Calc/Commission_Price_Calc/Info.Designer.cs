@@ -76,7 +76,6 @@
             this.labelText.TabIndex = 3;
             this.labelText.Text = "This Program is made by Sleepycharlyy. Icon made by Kszy. \nCommission Price Calcu" +
     "lator";
-            this.labelText.Click += new System.EventHandler(this.labelText_Click);
             // 
             // buttonOK
             // 

@@ -20,29 +20,26 @@ namespace Commission_Price_Calc
             InitializeComponent();
         }
 
-        private void buttonSourceCode_Click(object sender, EventArgs e)
-        {
-            System.Diagnostics.Process.Start("https://github.com/sleepycharlyy/commission_price_calculator");
-        }
+        #region Design and Interactivity
+            private void buttonSourceCode_Click(object sender, EventArgs e)
+                {
+                    System.Diagnostics.Process.Start("https://github.com/sleepycharlyy/commission_price_calculator");
+                }
 
-        private void buttonBugs_Click(object sender, EventArgs e)
-        {
-            System.Diagnostics.Process.Start("https://github.com/sleepycharlyy/commission_price_calculator/issues");
-        }
+            private void buttonBugs_Click(object sender, EventArgs e)
+                {
+                    System.Diagnostics.Process.Start("https://github.com/sleepycharlyy/commission_price_calculator/issues");
+                }
 
-        private void buttonTumblr_Click(object sender, EventArgs e)
-        {
-            System.Diagnostics.Process.Start("https://sleepycharlyy.tumblr.com");
-        }
+            private void buttonTumblr_Click(object sender, EventArgs e)
+                {
+                    System.Diagnostics.Process.Start("https://sleepycharlyy.tumblr.com");
+                }
 
-        private void buttonOK_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-        private void labelText_Click(object sender, EventArgs e)
-        {
-
-        }
+            private void buttonOK_Click(object sender, EventArgs e)
+                {
+                    this.Close();
+                }
+        #endregion
     }
 }

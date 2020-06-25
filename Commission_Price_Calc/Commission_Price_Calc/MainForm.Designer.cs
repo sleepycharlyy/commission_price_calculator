@@ -286,7 +286,7 @@
             // timer
             // 
             this.timer.Interval = 1000;
-            this.timer.Tick += new System.EventHandler(this.mainTimerOnTick);
+            this.timer.Tick += new System.EventHandler(this.main_timer_ontick);
             // 
             // ButtonReset
             // 
@@ -423,6 +423,7 @@
             this.newProjectToolStripMenuItem.ShowShortcutKeys = false;
             this.newProjectToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.newProjectToolStripMenuItem.Text = "New Project";
+            this.newProjectToolStripMenuItem.Click += new System.EventHandler(this.newProjectToolStripMenuItem_Click);
             // 
             // MainForm
             // 
