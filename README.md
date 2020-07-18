@@ -1,4 +1,7 @@
 # Commission Price Calculator
+
+[![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/Y8Y11Y0ET)
+
 a little tool i made mostly for myself to keep track of my time i worked on projects and to calculate my pricings..
 it has a timer to count how long you work on something or you could just manually add or subtract how much time you spend on a project.
 you can save and load projects and calculate your pricings.
