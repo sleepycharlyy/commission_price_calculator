@@ -15,7 +15,7 @@ Video about this program:
 This is my first time programming in c# so keep that in mind lmao I hope the program works fine.
 
 # Video
-[![IMAGE ALT TEXT](http://img.youtube.com/vi/ICrWMu1SzHU/0.jpg)](https://youtu.be/ICrWMu1SzHU "Comission Price Calculator")
+[![Video](http://img.youtube.com/vi/ICrWMu1SzHU/0.jpg)](https://youtu.be/ICrWMu1SzHU "Comission Price Calculator")
 
 # Screenshots 
-![alt text](https://i.imgur.com/lYnCyo4.png)
+![Screenshot](https://i.imgur.com/lYnCyo4.png)
